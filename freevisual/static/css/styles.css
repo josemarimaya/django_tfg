@@ -1,0 +1,77 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+#m-nav {
+    background-color: #333;
+    color: white;
+    padding: 10px 0;
+}
+
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.nav-logo {
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-right: 20px; /* Agregado para separar un poco del nav-items */
+}
+
+.nav-items {
+    display: flex;
+    flex: 1; /* Hace que el contenedor de elementos de navegación ocupe el espacio disponible */
+    align-items: center;
+}
+
+.nav-item {
+    margin: 0 15px;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.nav-item:hover {
+    color: #ff6347;
+}
+
+.nav-right {
+    display: flex;
+    align-items: center;
+    flex: 1; /* Hace que el contenedor de elementos de la derecha ocupe el espacio disponible */
+    justify-content: flex-end; /* Alinea los elementos al final del contenedor */
+}
+
+.search-bar {
+    flex-grow: 1; /* Hace que la barra de búsqueda ocupe el espacio sobrante */
+    margin-right: 15px;
+}
+
+.search-bar input {
+    width: 100%;
+    max-width: 300px;
+    padding: 5px;
+    border: none;
+    border-radius: 3px;
+    height: 30px; /* Ajusta la altura de la barra de búsqueda */
+}
+
+.login-button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px; /* Aumenta el tamaño del botón */
+    cursor: pointer;
+    border-radius: 3px;
+    transition: background-color 0.3s;
+    height: 40px; /* Ajusta la altura del botón */
+}
+
+.login-button:hover {
+    background-color: #45a049;
+}

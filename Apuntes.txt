@@ -1,0 +1,26 @@
+Documentación oficial de django:
+
+    https://docs.djangoproject.com/en/5.0/
+
+
+- Iniciaremos el entorno virtual haciendo: 
+    .\venv\Scripts\activate
+- Crear una aplicación nueva:
+    python manage.py startapp nombre_app
+- Cada vez que hagamos una modificación en las tablas de la base de datos:
+    python manage.py makemigrations
+- Cuando queramos que esto se vea reflejado en la interfaz y en la db en SQLite3:
+    python manage.py migrate
+- Migrar de una app en concreto lo conseguiremos haciendo:
+    python manage.py makemigrations nombre_app
+
+- Para trabajar directamente desde la shell de sqlite:
+    python manage.py shell
+
+    * Trabajando desde la shell podemos importar tablas directamente y trabajar con ellas:
+        from myapp.models import Project, Task
+        p = Project(name="aplicacion movil")
+    * Para guardarlas solamente tendremos que hacer 
+        p.save()
+    * Listar los objetos de una tabla:
+        Objeto.objects.all()
