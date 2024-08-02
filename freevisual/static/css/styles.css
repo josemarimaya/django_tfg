@@ -1,21 +1,19 @@
 body {
     margin: 0;
     font-family: Arial, sans-serif;
+    background: #202020;
 }
 
 #m-nav {
     background-color: #333;
     color: white;
     padding: 10px 0;
+    display: flex;
 }
 
 .nav-container {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
 }
 
 .nav-logo {
@@ -27,7 +25,6 @@ body {
 .nav-items {
     display: flex;
     flex: 1; /* Hace que el contenedor de elementos de navegación ocupe el espacio disponible */
-    align-items: center;
 }
 
 .nav-item {
@@ -74,4 +71,14 @@ body {
 
 .login-button:hover {
     background-color: #45a049;
+}
+
+.nav-item a{
+    text-decoration: none;
+    color: white;
+}
+
+.nav-logo a{
+    text-decoration: none;
+    color: white;
 }

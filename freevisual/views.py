@@ -5,3 +5,12 @@ from .models import Creator
 
 def index(request):
     return render(request,'index.html')
+
+def about(request):
+    return render(request, 'about.html')
+
+def sign_in(request):
+    return render(request, 'signin.html')
+
+def sign_up(request):
+    return render(request, 'signup.html')

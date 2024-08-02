@@ -19,3 +19,10 @@ class Creator(models.Model):
     email =  models.CharField(max_length=200)
     tools =  models.ManyToManyField(Tools, verbose_name="Lista de herramientas del creador")
     specialities =  models.ManyToManyField(Speciality, verbose_name="Lista de especialidades del creador")
+
+
+class Image(models.Model):
+    title = models.CharField(max_length=200)
+    image = '' # Necesitamos saber como cargar la propia imagen en la base de datos
+    autor = models.ForeignKey(Creator, on_delete=models.CASCADE)
+    
