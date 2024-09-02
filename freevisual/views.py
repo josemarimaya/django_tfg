@@ -1,7 +1,10 @@
 
-from django.shortcuts import render
+# Imports de django
+from django.shortcuts import render, redirect
+
+# Imports del propio proyecto
 from .models import Creator
-# Create your views here.
+from .forms import CreateCreatorForm
 
 def index(request):
     return render(request,'index.html')
@@ -13,7 +16,25 @@ def sign_in(request):
     return render(request, 'signin.html')
 
 def sign_up(request):
-    return render(request, 'signup.html')
+    if request.method == 'GET':
+        return render(request, 'signup.html', {
+            'form': CreateCreatorForm
+        })
+    else:
+        
+        if request.POST['password'] == request.POST['password2']:
+            
+            Creator.objects.create(name=request.POST['name'], 
+                password=request.POST['password'], email= request.POST['email'])
+            return redirect('main')
+        else:
+
+            return render(request, 'signup.html', {
+                'form': CreateCreatorForm,
+                'error': 'Las contraseñas no coinciden'
+            })
+
+    
 
 def gallery(request):
     return render(request, 'gallery.html')
