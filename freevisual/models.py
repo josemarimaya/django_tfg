@@ -1,4 +1,10 @@
+# Imports de django
 from django.db import models
+from django.db import models
+from django.contrib.auth.models import User
+from django.utils import timezone
+
+
 
 # Create your models here.
 
@@ -22,7 +28,12 @@ class Creator(models.Model):
 
 
 class Image(models.Model):
-    title = models.CharField(max_length=200)
-    image = '' # Necesitamos saber como cargar la propia imagen en la base de datos
-    autor = models.ForeignKey(Creator, on_delete=models.CASCADE)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
+    image = models.ImageField(upload_to='images/', default='images/galactus.png')
+    title = models.CharField(max_length=100)
+    description = models.TextField(blank=True, null=True)
+    uploaded_at = models.DateTimeField(default=timezone.now )
+
+    def __str__(self):
+        return self.title
     

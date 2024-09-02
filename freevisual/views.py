@@ -14,3 +14,12 @@ def sign_in(request):
 
 def sign_up(request):
     return render(request, 'signup.html')
+
+def gallery(request):
+    return render(request, 'gallery.html')
+
+def profile(request):
+    return render(request, 'profile.html')
+
+def upload(request):
+    return render(request, 'upload.html')
