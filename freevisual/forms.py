@@ -10,9 +10,10 @@ class CreateCreatorForm(forms.ModelForm):
 
     class Meta:
         model = Creator
-        fields = ['name', 'email', 'password']
+        fields = ['name', 'username','email', 'password']
         widgets = { # Estilizamos importando el modelo inyectando los estilos de boostrap
-            'name': forms.TextInput(attrs={'class' : 'form-control', 'placeholder': 'Escribe tu nombre de usuario'}),
+            'name': forms.TextInput(attrs={'class' : 'form-control', 'placeholder': 'Escribe tu nombre'}),
+            'username': forms.TextInput(attrs={'class' : 'form-control', 'placeholder': 'Escribe tu nombre de usuario'}),
             'email': forms.TextInput(attrs={'class' : 'form-control', 'placeholder': 'Escribe tu email'}),
             'password': forms.PasswordInput(attrs={'class' : 'form-control', 'placeholder': 'Escribe tu contraseña'})
         }
