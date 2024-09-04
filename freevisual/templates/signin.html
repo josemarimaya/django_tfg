@@ -5,55 +5,34 @@
 {% block content %}
 
 <main class="container py-5 mb-5">
-    <div class="row">
-        <section class="col-md-4 offset-md-4">
-            <form action="{%url 'main' %}" method="post" class="card card-body text-center">
-                {% csrf_token %}
-                <h1 class="text-center"> Inicia sesión </h1>
-            
-                <!-- form heredado de django
-                     {{form.as_p}}
-                -->
+
+
+    <main class="container">
+        <div class="row py-5">
+            <div class="col-md-4 offset-md-4">
                 
-            
-                <div class="mb-3">
-                    <label for="username" id="username"> Username: </label>
-                    <input type="text" name="username" class="form-control"
-                        placeholder="Escribe tu nombre de usuario">
-                </div>
-            
-                <div class="mb-3">
-                    <label for="password" id="password"> Contraseña: </label>
-                    <input type="password" name="password" class="form-control"
-                        placeholder="Escribe tu contraseña">
-                </div>
-               
-                <button class="btn btn-primary mb-3">
-                    Inicia Sesión
-                </button>
+    
+                <form method="post" class="card card-body">
+                    <h1 class="text-center text-center"> Inicia sesión </h1>
+                    {% csrf_token %}
+                    {% if error %}
+                        <p class="text-danger text-center">{{ error }}</p>
+                    {%endif%}
+                    <br/>
+                    {{form.as_p}}
+                    <button class="btn btn-primary mb-3"> Inicia sesión </button>
+                    <a href="{% url 'sign_up' %}" class="btn btn-danger">
+                        No tengo cuenta
+                    </a>
+                </form>
+    
+    
+            </div>
+        </div>
+    </main>
 
-                <a href="{% url 'sign_up' %}" class="btn btn-danger">
-
-                    No tengo cuenta
-                </a>
-
-                
-                
-            </form>
-        </section>
-
-    </div>
+    
 </main>
-
-<div class="btn-group">
-    <a href="/save/1" class="btn btn-primary active">
-        <i class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></i> Save
-    </a>
-    <a href="/cancel/1" class="btn btn-default">Cancel</a>
-</div>
-
-<button>
-    <a href="{%url 'sign_up'%}"> No tengo cuenta</a>
-</button>
-
 {% endblock %}
+
+

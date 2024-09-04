@@ -1,7 +1,7 @@
 # Imports de django
 from django.db import models
 from django.db import models
-from django.contrib.auth.models import User
+#from django.contrib.auth.models import User
 from django.utils import timezone
 # Imports para poder usar el auth
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
@@ -38,20 +38,19 @@ class CreatorManager(BaseUserManager):
 class Creator(AbstractBaseUser, PermissionsMixin):
     name = models.CharField(max_length=200)
     surname = models.CharField(max_length=200)
-    username = models.CharField(max_length=200, default='')
-    email = models.EmailField(unique=True) # Los emails debes de ser únicos
+    username = models.CharField(max_length=200, unique=True, default='') # Deberíamos añadirle unique=True pero ya tenemos a dos usuarios con el mismo username
+    email = models.EmailField(max_length=100) # Los emails debes de ser únicos
     password = models.CharField(max_length=200)
     tools = models.ManyToManyField('Tools', verbose_name="Lista de herramientas del creador")
     specialities = models.ManyToManyField('Speciality', verbose_name="Lista de especialidades del creador")
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
 
-    USERNAME_FIELD = 'email'
+    USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = ['name', 'surname']
 
     objects = CreatorManager()
-
-    groups = models.ManyToManyField(
+    """ groups = models.ManyToManyField(
         'auth.Group',
         related_name='creator_set',  # Se cambia el nombre de la relación para evitar conflicto
         blank=True
@@ -61,10 +60,11 @@ class Creator(AbstractBaseUser, PermissionsMixin):
         'auth.Permission',
         related_name='creator_permission_set',  # Se cambia el nombre de la relación para evitar conflicto
         blank=True
-    )
+    )"""
+   
 
     def __str__(self):
-        return self.email
+        return self.username
     
 """class Creator(models.Model):
     name = models.CharField(max_length=200)
@@ -78,7 +78,7 @@ class Creator(AbstractBaseUser, PermissionsMixin):
 
 
 class Image(models.Model):
-    owner = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
+    owner = models.ForeignKey(Creator, on_delete=models.CASCADE, default=1)
     image = models.ImageField(upload_to='images/', default='images/galactus.png')
     title = models.CharField(max_length=100)
     description = models.TextField(blank=True, null=True)

@@ -27,6 +27,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+# Hemos añadido como auth Creator en vez de que use User para las identificaciones
+AUTH_USER_MODEL = 'freevisual.Creator'
+
 
 # Application definition
 

@@ -17,3 +17,13 @@ class CreateCreatorForm(forms.ModelForm):
             'email': forms.TextInput(attrs={'class' : 'form-control', 'placeholder': 'Escribe tu email'}),
             'password': forms.PasswordInput(attrs={'class' : 'form-control', 'placeholder': 'Escribe tu contraseña'})
         }
+
+class LoginForm(forms.ModelForm):
+    
+    class Meta:
+        model = Creator
+        fields = ['username','password']
+        widgets = {
+            'username': forms.TextInput(attrs={'class' : 'form-control text-center', 'placeholder': 'Escribe tu nombre de usuario'}),
+            'password': forms.PasswordInput(attrs={'class' : 'form-control text-center', 'placeholder': 'Escribe tu contraseña'})
+        }
