@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect
 
 # Imports del propio proyecto
 from .models import Creator
-from .forms import CreateCreatorForm, LoginForm
+from .forms import CreateCreatorForm, LoginForm, UploadImageForm
 from django.contrib.auth import login, logout, authenticate # Creación de cookies
 from django.contrib.auth import get_user_model # Depuración
 from django.contrib.auth.hashers import check_password
@@ -112,7 +112,21 @@ def gallery(request):
     return render(request, 'gallery.html')
 
 def profile(request):
-    return render(request, 'profile.html')
+    return render(request, 'profile.html', {
+        'range': range(9)
+    })
 
 def upload(request):
+    if request.method == 'GET':
+        return render(request, 'upload.html', {
+            'form': UploadImageForm
+        })
+    elif request.method == 'POST':
+        form = UploadImageForm(request.POST, request.FILES)
+        if form.is_valid():
+            image = form.save(commit=False)
+            image.owner = request.user  # Asigna el usuario autenticado como propietario
+            image.save()
+            return redirect('main')  # Redirige a la galería después de subir la imagen
+
     return render(request, 'upload.html')
