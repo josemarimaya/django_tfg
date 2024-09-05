@@ -3,11 +3,14 @@
 from django.shortcuts import render, redirect
 
 # Imports del propio proyecto
-from .models import Creator
+from .models import Creator, Image
 from .forms import CreateCreatorForm, LoginForm, UploadImageForm
 from django.contrib.auth import login, logout, authenticate # Creación de cookies
 from django.contrib.auth import get_user_model # Depuración
 from django.contrib.auth.hashers import check_password
+from django.db import IntegrityError
+from django.http import HttpResponseForbidden 
+
 
 def index(request):
     return render(request,'index.html')
@@ -112,21 +115,33 @@ def gallery(request):
     return render(request, 'gallery.html')
 
 def profile(request):
+    images_from_user = Image.objects.filter(owner = request.user)
     return render(request, 'profile.html', {
-        'range': range(9)
+        'range': range(9),
+        'images': images_from_user
     })
 
 def upload(request):
     if request.method == 'GET':
         return render(request, 'upload.html', {
-            'form': UploadImageForm
+            'form': UploadImageForm()
         })
     elif request.method == 'POST':
         form = UploadImageForm(request.POST, request.FILES)
         if form.is_valid():
             image = form.save(commit=False)
-            image.owner = request.user  # Asigna el usuario autenticado como propietario
-            image.save()
-            return redirect('main')  # Redirige a la galería después de subir la imagen
-
-    return render(request, 'upload.html')
+            
+            if isinstance(request.user, Creator):
+                image.owner = request.user  # Asigna el usuario autenticado como propietario
+                try:
+                    image.save()
+                    return redirect('main')
+                except IntegrityError as e:
+                    return render(request, 'upload.html', {
+                        'form': form,
+                        'error': f"Error al guardar la imagen: {e}"
+                    })
+            else:
+                return HttpResponseForbidden("El usuario autenticado no es un creador válido.")
+        
+    return render(request, 'upload.html', {'form': form})

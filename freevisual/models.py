@@ -45,23 +45,13 @@ class Creator(AbstractBaseUser, PermissionsMixin):
     specialities = models.ManyToManyField('Speciality', verbose_name="Lista de especialidades del creador")
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
+    profile_pic = models.ImageField(blank=True, null= True, upload_to='images/')
+    description = models.CharField(blank=True, max_length=200)
 
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = ['name', 'surname']
 
     objects = CreatorManager()
-    """ groups = models.ManyToManyField(
-        'auth.Group',
-        related_name='creator_set',  # Se cambia el nombre de la relación para evitar conflicto
-        blank=True
-    )
-
-    user_permissions = models.ManyToManyField(
-        'auth.Permission',
-        related_name='creator_permission_set',  # Se cambia el nombre de la relación para evitar conflicto
-        blank=True
-    )"""
-   
 
     def __str__(self):
         return self.username
@@ -78,7 +68,7 @@ class Creator(AbstractBaseUser, PermissionsMixin):
 
 
 class Image(models.Model):
-    owner = models.ForeignKey(Creator, on_delete=models.CASCADE, default=1)
+    owner = models.ForeignKey(Creator, on_delete=models.CASCADE)
     image = models.ImageField(upload_to='images/', default='images/galactus.png')
     title = models.CharField(max_length=100)
     description = models.TextField(blank=True, null=True)
