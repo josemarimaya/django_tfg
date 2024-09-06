@@ -13,5 +13,9 @@ urlpatterns = [
     path('signup/', views.sign_up, name='sign_up'),
     path('post_content/', views.upload, name='upload'),
     path('profile/', views.profile, name='profile'),
-    path('signout/', views.signout, name='sign_out')
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_URL)
+    path('signout/', views.signout, name='sign_out'),
+    path('edit_image/<int:image_id>/', views.edit_image, name='edit_image'),
+    path('image/delete/<int:image_id>/', views.delete_image, name='delete_image'),
+] 
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

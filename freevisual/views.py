@@ -1,6 +1,6 @@
 
 # Imports de django
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 
 # Imports del propio proyecto
 from .models import Creator, Image
@@ -145,3 +145,30 @@ def upload(request):
                 return HttpResponseForbidden("El usuario autenticado no es un creador válido.")
         
     return render(request, 'upload.html', {'form': form})
+
+def edit_image(request, image_id):
+    image = get_object_or_404(Image, id=image_id)
+
+    if request.user != image.owner:
+        return HttpResponseForbidden("No tienes permiso para editar esta imagen.")
+
+    if request.method == 'POST':
+        form = UploadImageForm(request.POST, request.FILES, instance=image)
+        if form.is_valid():
+            form.save()
+            return redirect('profile')
+    else:
+        form = UploadImageForm(instance=image)
+    
+    return render(request, 'edit_image.html', {'form': form, 'image': image})
+
+
+def delete_image(request, image_id):
+    image = get_object_or_404(Image, id=image_id)
+
+    # Verifica que el usuario autenticado sea el dueño de la imagen
+    if request.user != image.owner:
+        return HttpResponseForbidden("No tienes permiso para eliminar esta imagen.")
+
+    image.delete()
+    return redirect('profile')

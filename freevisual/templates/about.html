@@ -2,12 +2,29 @@
 
 {% block content %}
 
-<h1> This is in about page </h1>
 
-<p> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor, nobis perspiciatis at magnam modi 
-    deserunt obcaecati corporis perferendis voluptatibus praesentium illum quos laudantium placeat fugiat sapiente nostrum eos. Ea, officiis.</p>
-
-<p> Este es un trabajo para la universidad de sevilla sin ánimo de lucro </p>
+<div class="container d-flex justify-content-center py-3 my-5">
+    <div class="card mb-3" style="max-width: 2000px;">
+      <div class="row g-0">
+        <!-- Columna para la imagen -->
+        <div class="col-md-4 d-flex align-items-center justify-content-center">
+          <img src="https://infrastructure.der-lab.net/wp-content/uploads/2017/07/university-sevilla-logo-768x699.jpg" class="img-fluid rounded-start" alt="Logo de la Universidad">
+        </div>
+        <!-- Columna para el contenido -->
+        <div class="col-md-8">
+          <div class="card-body">
+            <h5 class="card-title">Acerca del Proyecto</h5>
+            <p class="card-text">
+              Este proyecto es parte de un trabajo académico para la universidad y tiene un carácter sin ánimo de lucro. Nuestro objetivo es desarrollar una plataforma web que ofrezca información y recursos sobre creadores audiovisuales. A través de este proyecto, buscamos aportar valor a la comunidad educativa y fomentar el aprendizaje colaborativo.
+            </p>
+            <p class="card-text"><small class="text-muted">Proyecto académico sin fines de lucro</small></p>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+  
+  
 
 {{msg}}
 

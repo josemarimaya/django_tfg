@@ -123,8 +123,10 @@ USE_TZ = True
 STATIC_URL = "static/"
 
 # Para el uso y tratamientos de ficheros
-MEDIA_URL = "/media/"
 
+#MEDIA_URL = ''
+MEDIA_URL = "/media/"
+#MEDIA_ROOT = ''
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
