@@ -112,7 +112,10 @@ def signout(request):
     return redirect('main')
 
 def gallery(request):
-    return render(request, 'gallery.html')
+    images = Image.objects.all()
+    return render(request, 'gallery.html', {
+        'images': images
+    })
 
 def profile(request):
     images_from_user = Image.objects.filter(owner = request.user)
@@ -145,6 +148,16 @@ def upload(request):
                 return HttpResponseForbidden("El usuario autenticado no es un creador válido.")
         
     return render(request, 'upload.html', {'form': form})
+
+
+def image_detail(request, image_id):
+
+    
+    image = get_object_or_404(Image, pk=image_id)
+    return render(request, 'image_html/image_detail.html',{
+        'image': image
+    })
+
 
 def edit_image(request, image_id):
     image = get_object_or_404(Image, id=image_id)

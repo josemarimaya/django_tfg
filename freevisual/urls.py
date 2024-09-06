@@ -14,6 +14,7 @@ urlpatterns = [
     path('post_content/', views.upload, name='upload'),
     path('profile/', views.profile, name='profile'),
     path('signout/', views.signout, name='sign_out'),
+    path('image/<int:image_id>', views.image_detail, name='image_detail'),
     path('edit_image/<int:image_id>/', views.edit_image, name='edit_image'),
     path('image/delete/<int:image_id>/', views.delete_image, name='delete_image'),
 ] 

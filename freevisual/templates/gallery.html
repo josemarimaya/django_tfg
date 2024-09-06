@@ -4,66 +4,32 @@
 
 {% block content %}
 
-<main>
+
+<div class="album mt-2 bg-light">
     <h1 class="mt-3 text-center"> Esta es la galería</h1>
-
-    <div class="album mt-5 py-5 bg-light">
-        <div class="container">
-            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-                <div class="col">
-                    <div class="card shadow-sm">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card shadow-sm">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card shadow-sm">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col">
-                    <div class="card shadow-sm">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card shadow-sm">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card shadow-sm">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        </div>
-                    </div>
-                </div>
+    <div class="row">
+      {% for image in images %}
+        <div class="col-md-4 mb-4">
+          <div class="card">
+            <img src="{{ image.image.url }}" class="card-img-top" alt="{{ image.title }}">
+            <div class="card-body">
+              <h5 class="card-title">{{ image.title }}</h5>
+              <p class="card-text">{{ image.description }}</p>
+              <p class="text-muted">Uploaded on: {{ image.uploaded_at|date:"F j, Y, g:i a" }}</p>
+              <div class="d-flex justify-content-center" >
+                <a href="{% url 'image_detail' image.id %}" class="btn btn-secondary" style="margin-right: 5px;"> Quiero ver más </a>
+              </div>
+              
             </div>
+          </div>
         </div>
-    </div>
 
-</main>
+        {% if forloop.counter|divisibleby:3 and not forloop.last %}
+          </div><div class="row"> <!-- Cierra y abre una nueva fila cada 3 imágenes -->
+        {% endif %}
+      {% endfor %}
+    </div>
+</div>
 
 
 

@@ -37,20 +37,25 @@
                         <h5 class="card-title">{{ image.title }}</h5>
                         <p class="card-text">{{ image.description }}</p>
                         <p class="card-text"><small class="text-body-secondary">Subido el {{ image.uploaded_at }}</small></p>
+                        
+
                     </div>
-                    {% if user == image.owner %}
+                    
                     <div class="d-flex justify-content-center" >
+                        <a href="{% url 'image_detail' image.id %}" class="btn btn-secondary" style="margin-right: 5px;"> Quiero ver más </a>
                         <!-- Botón de Editar -->
+                        {% if user == image.owner %}
                         <a href="" class="btn btn-primary" style="margin-right: 5px;">Editar</a>
                         
                         <!-- Botón de Eliminar -->
                         <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ image.id }}">
                             Eliminar
                         </button>
+                        {% endif %}
                     </div>
 
-                    <!-- Modal de confirmación de eliminación -->
-                    <div class="modal fade" id="deleteModal{{ image.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <!-- Modal de confirmación de eliminación 
+                        <div class="modal fade" id="deleteModal{{ image.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -66,8 +71,9 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-            {% endif %}
+                    </div> 
+                    -->
+                    
                 </div>
             </div>
             
