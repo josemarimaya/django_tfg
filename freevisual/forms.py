@@ -48,3 +48,31 @@ class UploadImageForm(forms.ModelForm):
             })
         }
 
+class EditProfileForm(forms.ModelForm):
+
+    class Meta:
+        model = Creator
+        fields = ['profile_pic', 'description']
+        widgets = {
+            'profile_pic': forms.ClearableFileInput(attrs={
+                'class': 'form-control'
+            }),
+            'description': forms.Textarea(attrs={
+                'class': 'form-control'
+            })
+        }
+
+class EditImageForm(forms.ModelForm):
+
+    class Meta:
+        model = Image
+        fields = ['title', 'description']
+        widgets = {
+            'title': forms.TextInput(attrs={
+                'class': 'form-control'
+            }),
+            'description': forms.Textarea(attrs={
+                'class': 'form-control'
+            })
+        }
+

@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 
 # Imports del propio proyecto
 from .models import Creator, Image
-from .forms import CreateCreatorForm, LoginForm, UploadImageForm
+from .forms import CreateCreatorForm, LoginForm, UploadImageForm, EditProfileForm, EditImageForm
 from django.contrib.auth import login, logout, authenticate # Creación de cookies
 from django.contrib.auth import get_user_model # Depuración
 from django.contrib.auth.hashers import check_password
@@ -119,10 +119,18 @@ def gallery(request):
 
 def profile(request):
     images_from_user = Image.objects.filter(owner = request.user)
-    return render(request, 'profile.html', {
+    return render(request, 'profile_html/profile.html', {
         'range': range(9),
         'images': images_from_user
     })
+
+def edit_profile(request, profile_id):
+    profile = get_object_or_404(Creator, id=profile_id)
+    return render(request, 'profile_html/edit_profile.html', {
+        'profile' : profile,
+        'form': EditProfileForm
+    })
+
 
 def upload(request):
     if request.method == 'GET':
@@ -151,7 +159,6 @@ def upload(request):
 
 
 def image_detail(request, image_id):
-
     
     image = get_object_or_404(Image, pk=image_id)
     return render(request, 'image_html/image_detail.html',{
@@ -166,22 +173,21 @@ def edit_image(request, image_id):
         return HttpResponseForbidden("No tienes permiso para editar esta imagen.")
 
     if request.method == 'POST':
-        form = UploadImageForm(request.POST, request.FILES, instance=image)
+        form = EditImageForm(request.POST, request.FILES, instance=image)
         if form.is_valid():
             form.save()
             return redirect('profile')
     else:
-        form = UploadImageForm(instance=image)
+        form = EditImageForm(instance=image)
     
-    return render(request, 'edit_image.html', {'form': form, 'image': image})
+    return render(request, 'image_html/edit_image.html', {'form': form, 'image': image})
 
 
 def delete_image(request, image_id):
-    image = get_object_or_404(Image, id=image_id)
+    image = get_object_or_404(Image, pk=image_id)
 
     # Verifica que el usuario autenticado sea el dueño de la imagen
-    if request.user != image.owner:
-        return HttpResponseForbidden("No tienes permiso para eliminar esta imagen.")
-
-    image.delete()
-    return redirect('profile')
+    if request.method == 'POST':
+        image.delete()
+        return redirect('profile')
+    
