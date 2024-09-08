@@ -45,7 +45,7 @@ class Creator(AbstractBaseUser, PermissionsMixin):
     specialities = models.ManyToManyField('Speciality', verbose_name="Lista de especialidades del creador")
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
-    profile_pic = models.ImageField(blank=True, null= True, upload_to='images/')
+    profile_pic = models.ImageField(blank=True, null= True, upload_to='images/', default='images/galactus.png')
     description = models.CharField(blank=True, max_length=200)
 
     USERNAME_FIELD = 'username'

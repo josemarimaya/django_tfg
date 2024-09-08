@@ -13,7 +13,11 @@ from django.http import HttpResponseForbidden
 
 
 def index(request):
-    return render(request,'index.html')
+    # Le marcamos que queremos las 9 más recientes, es decir por orden inverso de la lista [:9]
+    recent_images = Image.objects.order_by('uploaded_at')[:9]
+    return render(request,'index.html', {
+        'images': recent_images
+    })
 
 def about(request):
     users = Creator.objects.all()
@@ -112,7 +116,15 @@ def signout(request):
     return redirect('main')
 
 def gallery(request):
-    images = Image.objects.all()
+
+    query = request.GET.get('query', '')
+
+    if query == '':
+        images = Image.objects.all()
+    else:
+        images = Image.objects.filter(title__icontains = query)
+        
+    
     return render(request, 'gallery.html', {
         'images': images
     })
