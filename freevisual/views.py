@@ -126,9 +126,21 @@ def profile(request):
 
 def edit_profile(request, profile_id):
     profile = get_object_or_404(Creator, id=profile_id)
+
+    if request.user != profile:
+        return HttpResponseForbidden("No puedes editar este perfil.")
+
+    if request.method == 'POST':
+        form = EditProfileForm(request.POST, request.FILES, instance=profile)
+        if form.is_valid():
+            form.save()
+            return redirect('profile')  # Redirige al perfil una vez guardado
+    else:
+        form = EditProfileForm(instance=profile)
+    
     return render(request, 'profile_html/edit_profile.html', {
-        'profile' : profile,
-        'form': EditProfileForm
+        'profile': profile,
+        'form': form
     })
 
 
