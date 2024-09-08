@@ -35,8 +35,8 @@
                 </li>
                 
 
-                <form class="d-flex" role="search" style="width: 500px; margin-left: 30px;">
-                    <input class="form-control me-2" type="search" placeholder="Busca tu artista o contenido favorito" aria-label="Search">
+                <form class="d-flex" role="search" style="width: 500px; margin-left: 30px;" method="GET" action="{% url 'search' %}">
+                    <input class="form-control me-2" type="search" placeholder="Busca tu artista o contenido favorito" name="query" aria-label="Search">
                     <button class="btn btn-outline-light" type="submit">Buscar</button>
                 </form>
     
@@ -104,6 +104,10 @@
         {% block content %}
         {% endblock %}
     </main>
+
+    <footer class="text-center" style="margin-top: 10px; margin-bottom: 10px;"> 
+        Este es un proyecto sin ánimo de lucro de la universidad de sevilla 
+    </footer>
     
 </body>
 </html>

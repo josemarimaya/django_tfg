@@ -4,34 +4,28 @@
 
 {% block content %}
 
-<h1 class="text-center"> Este es tu perfil</h1>
+<h1 class="text-center"> Este es el perfil de {{creator.username}}</h1>
 
 <div class="d-flex aligns-items-center justify-content-center card mb-3 mx-auto h-100" style="width: 100%;">
     <div class="row g-0">
         {% if creator.profile_pic.url is None%}
-        <div class="col-md-4" style="width: 25px;"></div>
+        <div class="col-md-4" style="height: 220px;"></div>
             <img src="https://static1.srcdn.com/wordpress/wp-content/uploads/2021/06/Galactus-Marvel.jpg" 
-            class="img-fluid rounded-start">
+            class="img-fluid w-100 h-100 rounded-start">
         </div>
         {% else %}
         <div class="col-md-4" style="height: 220px;">
-            <img src="{{user.profile_pic.url}}" 
+            <img src="{{creator.profile_pic.url}}" 
             class="img-fluid w-100 h-100 rounded-start">
         </div>
         {% endif %}
-
         <div class="col-md-8">
             <div class="card-body">
-                <h5 class="card-title">{{ user.username}}</h5>
-                <p class="card-text"> {{user.description}} </p>
+                <h5 class="card-title">{{ creator.username}}</h5>
+                <p class="card-text"> {{creator.description}} </p>
                 <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
             </div>
             
-            <div>
-                <a href="{% url 'edit_profile' user.id%}" class="btn btn-info" style="margin-left: 10px;">
-                    Editar Perfil
-                </a>
-            </div>
         </div>
     </div>
 </div>
@@ -65,31 +59,9 @@
                         {% endif %}
                     </div>
 
-                    <!-- Modal de confirmación de eliminación 
-                        <div class="modal fade" id="deleteModal{{ image.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Confirmar Eliminación</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    ¿Seguro que quieres eliminar esta foto?
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                    <a href="" class="btn btn-danger">Sí, eliminar</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div> 
-                    -->
-                    
                 </div>
             </div>
-            
-            {% empty %}
-            <p class="text-center">Aún no has subido ninguna imagen.</p>
+        
             {% endfor %}
             
         </div>

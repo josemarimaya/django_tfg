@@ -117,6 +117,30 @@ def gallery(request):
         'images': images
     })
 
+def search_result(request):
+    query = request.GET.get('query', '')
+    if query:
+        creators = Creator.objects.filter(username__icontains= query)
+    else:
+        creators = Creator.objects.none()
+
+    return render(request, 'search_results.html', {
+        'creators': creators,
+        'query': query
+    })
+
+def go_profile(request, profile_id):
+
+    creator = get_object_or_404(Creator, id = profile_id)
+
+    images_from_creator = Image.objects.filter(owner = profile_id)
+
+    return render(request, 'profile_html/profile_search.html',{
+        'creator': creator,
+        'images': images_from_creator
+    })
+
+
 def profile(request):
     images_from_user = Image.objects.filter(owner = request.user)
     return render(request, 'profile_html/profile.html', {
