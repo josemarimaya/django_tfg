@@ -135,6 +135,7 @@ def search_result(request):
         creators = Creator.objects.filter(username__icontains= query)
     else:
         creators = Creator.objects.none()
+    
 
     return render(request, 'search_results.html', {
         'creators': creators,
@@ -147,17 +148,24 @@ def go_profile(request, profile_id):
 
     images_from_creator = Image.objects.filter(owner = profile_id)
 
+    profile_pic = creator.profile_pic.url if creator.profile_pic else '/media/images/galactus.png'
+
     return render(request, 'profile_html/profile_search.html',{
         'creator': creator,
-        'images': images_from_creator
+        'images': images_from_creator,
+        'profile_pic': profile_pic
     })
 
 
 def profile(request):
     images_from_user = Image.objects.filter(owner = request.user)
+
+    profile_pic = request.user.profile_pic.url if request.user.profile_pic else '/media/images/galactus.png'
+
     return render(request, 'profile_html/profile.html', {
         'range': range(9),
-        'images': images_from_user
+        'images': images_from_user,
+        'profile_pic': profile_pic
     })
 
 def edit_profile(request, profile_id):

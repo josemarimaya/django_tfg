@@ -6,35 +6,26 @@
 
 <h1 class="text-center"> Este es tu perfil</h1>
 
-<div class="d-flex aligns-items-center justify-content-center card mb-3 mx-auto h-100" style="width: 100%;">
-    <div class="row g-0">
-        {% if creator.profile_pic.url is None%}
-        <div class="col-md-4" style="width: 25px;"></div>
-            <img src="https://static1.srcdn.com/wordpress/wp-content/uploads/2021/06/Galactus-Marvel.jpg" 
-            class="img-fluid rounded-start">
-        </div>
-        {% else %}
-        <div class="col-md-4" style="height: 220px;">
-            <img src="{{user.profile_pic.url}}" 
-            class="img-fluid w-100 h-100 rounded-start">
-        </div>
-        {% endif %}
 
+<div class="card mb-3 w-100" >
+    <div class="row g-0">
+        <div class="col-md-4 d-flex align-items-center justify-content-center">
+            <img src="{{ profile_pic }}" class="img-fluid rounded-start" alt="Imagen de perfil" style="object-fit: cover; width: 100%; height: 100%; max-height: 300px;">
+        </div>
         <div class="col-md-8">
             <div class="card-body">
-                <h5 class="card-title">{{ user.username}}</h5>
-                <p class="card-text"> {{user.description}} </p>
-                <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
-            </div>
-            
-            <div>
-                <a href="{% url 'edit_profile' user.id%}" class="btn btn-info" style="margin-left: 10px;">
-                    Editar Perfil
-                </a>
+                <h5 class="card-title">{{ user.username }}</h5>
+                <p class="card-text">{{ user.description }}</p>
+                <p class="card-text"><small class="text-muted">Última actualización hace 3 minutos</small></p>
+
+                <div>
+                    <a href="{% url 'edit_profile' user.id %}" class="btn btn-info" style="margin-top: 10px;">Editar Perfil</a>
+                </div>
             </div>
         </div>
     </div>
 </div>
+
 
 <div class="album mt-5 py-5 bg-light">
     <div class="container">
