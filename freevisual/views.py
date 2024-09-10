@@ -13,8 +13,8 @@ from django.http import HttpResponseForbidden
 
 
 def index(request):
-    # Le marcamos que queremos las 9 más recientes, es decir por orden inverso de la lista [:9]
-    recent_images = Image.objects.order_by('uploaded_at')[:9]
+    # Le marcamos que queremos las 9 más recientes, es decir por orden inverso de la lista '-uploaded_at'
+    recent_images = Image.objects.order_by('-uploaded_at')[:9]
     return render(request,'index.html', {
         'images': recent_images
     })
@@ -217,8 +217,12 @@ def upload(request):
 def image_detail(request, image_id):
     
     image = get_object_or_404(Image, pk=image_id)
+    creator = image.owner
+    
     return render(request, 'image_html/image_detail.html',{
-        'image': image
+        'image': image,
+        'creator': creator
+        
     })
 
 
