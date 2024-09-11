@@ -21,13 +21,13 @@
 <section id="portfolio" class="py-2">
     <div class="container">
         <div class="d-flex justify-content-center">
-            <div class="card text-center" style="padding: 10px; display: inline-block;">
-              <h2 class="mb-0">Nuestros proyectos más recientes </h2>
-            </div>
+          <div class="card text-center" style="padding: 10px; display: inline-block;">
+            <h2 class="mb-0">Nuestros proyectos más recientes </h2>
+          </div>
         </div>
-        <div class="row py-3">
+        <div class="row">
           {% for image in images %}
-          <div class="col-md-4">
+          <div class="col-md-4" style="margin-top: 10px;">
               <div class="card">
               <img src="{{ image.image.url }}" class="card-img-top" alt="Proyecto 1">
               <div class="card-body">

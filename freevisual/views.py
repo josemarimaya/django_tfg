@@ -164,16 +164,22 @@ def profile(request):
 
     provinces = request.user.provinces.all()
 
+    brands = request.user.brand.all()
+
     print(provinces)
+
+    print(brands)
 
     return render(request, 'profile_html/profile.html', {
         'range': range(9),
         'images': images_from_user,
         'profile_pic': profile_pic,
-        'provinces': provinces
+        'provinces': provinces,
+        'brands': brands
     })
 
 def edit_profile(request, profile_id):
+    
     profile = get_object_or_404(Creator, id=profile_id)
 
     if request.user != profile:

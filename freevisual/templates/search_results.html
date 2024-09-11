@@ -27,8 +27,7 @@
                             
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                             <div class="col-md-2 d-flex align-items-center justify-content-start">
-                                {% if cretator.profile_pic%}
-
+                                {% if creator.profile_pic%}
                                     <img src="{{ creator.profile_pic.url}}"  alt="Imagen de perfil" style="object-fit: cover; width: 100px; height: 100px;">
                                 {% else %}
                                     <img src='/media/images/galactus.png' alt="Imagen por defecto" style="object-fit: cover; width: 100px; height: 100px;">

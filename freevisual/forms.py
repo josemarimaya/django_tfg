@@ -1,5 +1,5 @@
 from django import forms
-from .models import Creator, Image, Provinces
+from .models import Creator, Image, Provinces, Brand
 
 class CreateCreatorForm(forms.ModelForm):
 
@@ -52,13 +52,27 @@ class EditProfileForm(forms.ModelForm):
 
     provinces = forms.ModelMultipleChoiceField(
         queryset=Provinces.objects.all(),
-        widget=forms.CheckboxSelectMultiple,  # Puedes cambiar a SelectMultiple si prefieres un dropdown.
-        required=False
+        widget=forms.SelectMultiple(attrs={
+
+            'class': 'form-select',
+            'size': '8'
+        }),  
+        label = "Provincias en las que trabajas"
+    )
+
+    brand = forms.ModelMultipleChoiceField(
+        queryset=Brand.objects.all(),
+        widget=forms.SelectMultiple(attrs={
+
+            'class': 'form-select',
+            'size': '8'
+        }),  
+        label = "Marcas de herramientas con las que has trabajado"
     )
 
     class Meta:
         model = Creator
-        fields = ['profile_pic', 'description', 'provinces']
+        fields = ['profile_pic', 'description', 'provinces', 'brand']
         widgets = {
             'profile_pic': forms.FileInput(attrs={
                 'class': 'form-control'

@@ -4,7 +4,11 @@
 
 {% block content %}
 
-<h1 class="text-center"> Este es tu perfil</h1>
+<div class="d-flex justify-content-center">
+    <div class="card text-center" style="padding: 10px; display: inline-block; margin-top: 5px; margin-bottom: 5px;">
+      <h2 class="mb-0"> Este es tu perfil </h2>
+    </div>
+  </div>
 
 
 <div class="card mb-3 w-100" >
@@ -19,17 +23,31 @@
                 <p class="card-text"><small class="text-muted"></small></p>
 
                 {% if provinces %}
-                    <p class="card-text"> Provincias por las que tiene disponibilidad: </p>
+                    <p class="card-text"> Provincias en las que tienes disponibilidad: </p>
                     <div class="row">
                         {% for province in provinces%}
                         <div class="col">
-                            <span class="btn btn-info">{{province.name}}</span>
+                            <span class="btn btn-primary">{{province.name}}</span>
                             
                         </div>
                     {%endfor %}
                     </div>
-                    
+        
                 {% endif %}
+
+                {% if brands %}
+                    <p class="card-text" style="margin-top: 10px;"> Herramientas con las que has trabajado: </p>
+                    <div class="row">
+                        {% for brand in brands %}
+                        <div class="col">
+                            <span class="btn btn-secondary">{{brand.name}}</span>
+                        </div>
+                    {%endfor %}
+                    </div>
+        
+                {% endif %}
+
+
 
                 <div>
                     <a href="{% url 'edit_profile' user.id %}" class="btn btn-info" style="margin-top: 10px;">Editar Perfil</a>
