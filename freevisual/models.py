@@ -14,9 +14,27 @@ class Speciality(models.Model):
     field = models.ForeignKey(Field, on_delete=models.CASCADE)
 
 
-class Tools(models.Model):
+
+class Provinces(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
+class Brand(models.Model):
     name = models.CharField(max_length=200)
 
+    def __str__(self):
+        return self.name
+
+
+class Tools(models.Model):
+    name = models.CharField(max_length=200)
+    brand = models.ForeignKey(Brand, on_delete=models.CASCADE, verbose_name='marca de herramientas', default=1)
+    model_tool = models.CharField(max_length=200, default='')
+
+    def __str__(self):
+        return self.name
 
 # Clase con BaseManager para poder usar el auth con Creator
 class CreatorManager(BaseUserManager):
@@ -43,6 +61,8 @@ class Creator(AbstractBaseUser, PermissionsMixin):
     password = models.CharField(max_length=200)
     tools = models.ManyToManyField('Tools', verbose_name="Lista de herramientas del creador")
     specialities = models.ManyToManyField('Speciality', verbose_name="Lista de especialidades del creador")
+    provinces = models.ManyToManyField('Provinces', verbose_name="Provincias donde trabaja el creador")
+    brand = models.ManyToManyField('Brand', verbose_name='Marcas de herramientas con las que ha trabajado')
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     profile_pic = models.ImageField(blank=True, null= True, upload_to='images/', default='images/galactus.png')

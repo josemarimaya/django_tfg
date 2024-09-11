@@ -162,10 +162,15 @@ def profile(request):
 
     profile_pic = request.user.profile_pic.url if request.user.profile_pic else '/media/images/galactus.png'
 
+    provinces = request.user.provinces.all()
+
+    print(provinces)
+
     return render(request, 'profile_html/profile.html', {
         'range': range(9),
         'images': images_from_user,
-        'profile_pic': profile_pic
+        'profile_pic': profile_pic,
+        'provinces': provinces
     })
 
 def edit_profile(request, profile_id):
@@ -181,6 +186,7 @@ def edit_profile(request, profile_id):
             return redirect('profile')  # Redirige al perfil una vez guardado
     else:
         form = EditProfileForm(instance=profile)
+
     
     return render(request, 'profile_html/edit_profile.html', {
         'profile': profile,

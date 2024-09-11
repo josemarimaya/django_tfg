@@ -18,9 +18,23 @@
                 <p class="card-text">{{ user.description }}</p>
                 <p class="card-text"><small class="text-muted"></small></p>
 
+                {% if provinces %}
+                    <p class="card-text"> Provincias por las que tiene disponibilidad: </p>
+                    <div class="row">
+                        {% for province in provinces%}
+                        <div class="col">
+                            <span class="btn btn-info">{{province.name}}</span>
+                            
+                        </div>
+                    {%endfor %}
+                    </div>
+                    
+                {% endif %}
+
                 <div>
                     <a href="{% url 'edit_profile' user.id %}" class="btn btn-info" style="margin-top: 10px;">Editar Perfil</a>
                 </div>
+
             </div>
         </div>
     </div>

@@ -1,5 +1,5 @@
 from django import forms
-from .models import Creator, Image
+from .models import Creator, Image, Provinces
 
 class CreateCreatorForm(forms.ModelForm):
 
@@ -50,11 +50,17 @@ class UploadImageForm(forms.ModelForm):
 
 class EditProfileForm(forms.ModelForm):
 
+    provinces = forms.ModelMultipleChoiceField(
+        queryset=Provinces.objects.all(),
+        widget=forms.CheckboxSelectMultiple,  # Puedes cambiar a SelectMultiple si prefieres un dropdown.
+        required=False
+    )
+
     class Meta:
         model = Creator
-        fields = ['profile_pic', 'description']
+        fields = ['profile_pic', 'description', 'provinces']
         widgets = {
-            'profile_pic': forms.ClearableFileInput(attrs={
+            'profile_pic': forms.FileInput(attrs={
                 'class': 'form-control'
             }),
             'description': forms.Textarea(attrs={
