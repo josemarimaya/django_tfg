@@ -15,10 +15,41 @@
                             <h4>Filtros</h4>
                         </div>
                         <div class="card-body">
-                            <p>Aquí puedes añadir filtros</p>
+                            <form method="GET" action="{% url 'search' %}">
+                                <input type="hidden" name="query" value="{{ query }}">
+                
+                                <!-- Filtro por marcas -->
+                                <div class="mb-3">
+                                    <label for="brand" class="form-label"> Marcas con las que trabaja: </label>
+                                    <select name="brand" id="brand" class="form-select" multiple>
+                                        {% for brand in brands %}
+                                            <option value="{{ brand.id }}" 
+                                                {% if brand.id|stringformat:"s" in selected_brands %}selected{% endif %}>
+                                                {{ brand.name }}
+                                            </option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                
+                                <!-- Filtro por provincias -->
+                                <div class="mb-3">
+                                    <label for="province" class="form-label">Provincias en las que tiene disponibilidad:</label>
+                                    <select name="province" id="province" class="form-select" multiple>
+                                        {% for province in provinces %}
+                                            <option value="{{ province.id }}" 
+                                                {% if province.id|stringformat:"s" in selected_provinces %}selected{% endif %}>
+                                                {{ province.name }}
+                                            </option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                
+                                <button type="submit" class="btn btn-primary">Aplicar filtros</button>
+                            </form>
                         </div>
                     </div>
                 </div>
+                
 
                 <div class="col-md-9">
                     {% if creators %}

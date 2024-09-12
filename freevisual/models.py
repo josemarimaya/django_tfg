@@ -13,7 +13,11 @@ class Speciality(models.Model):
     name = models.CharField(max_length=200)
     field = models.ForeignKey(Field, on_delete=models.CASCADE)
 
+class Work(models.Model):
+    name = models.CharField(max_length=200, verbose_name='Tiene experiencia en')
 
+    def __str__(self):
+        return self.name
 
 class Provinces(models.Model):
     name = models.CharField(max_length=100)
@@ -63,6 +67,7 @@ class Creator(AbstractBaseUser, PermissionsMixin):
     specialities = models.ManyToManyField('Speciality', verbose_name="Lista de especialidades del creador")
     provinces = models.ManyToManyField('Provinces', verbose_name="Provincias donde trabaja el creador")
     brand = models.ManyToManyField('Brand', verbose_name='Marcas de herramientas con las que ha trabajado')
+    work = models.ManyToManyField('Work', verbose_name='Trabajos que ha realizado')
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     profile_pic = models.ImageField(blank=True, null= True, upload_to='images/', default='images/galactus.png')
@@ -80,15 +85,7 @@ class Creator(AbstractBaseUser, PermissionsMixin):
         if self.profile_pic:
             return self.profile_pic.url
         return '/static/images/default_profile_pic.png'
-    
-"""class Creator(models.Model):
-    name = models.CharField(max_length=200)
-    surname = models.CharField(max_length=200)
-    password = models.CharField(max_length=200, default="")
-    email =  models.CharField(max_length=200)
-    tools =  models.ManyToManyField(Tools, verbose_name="Lista de herramientas del creador")
-    specialities =  models.ManyToManyField(Speciality, verbose_name="Lista de especialidades del creador")
-"""
+
 
 
 

@@ -3,7 +3,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 
 # Imports del propio proyecto
-from .models import Creator, Image
+from .models import Creator, Image, Provinces, Brand
 from .forms import CreateCreatorForm, LoginForm, UploadImageForm, EditProfileForm, EditImageForm
 from django.contrib.auth import login, logout, authenticate # Creación de cookies
 from django.contrib.auth import get_user_model # Depuración
@@ -131,15 +131,31 @@ def gallery(request):
 
 def search_result(request):
     query = request.GET.get('query', '')
+    selected_brands = request.GET.getlist('brand')  
+    selected_provinces = request.GET.getlist('province') 
+
+    brands = Brand.objects.all()
+    provinces = Provinces.objects.all()
+
     if query:
         creators = Creator.objects.filter(username__icontains= query)
     else:
-        creators = Creator.objects.none()
+        creators = Creator.objects.all()
+
+    if selected_brands:
+        creators = creators.filter(brand__id__in=selected_brands).distinct()
+
+    if selected_provinces:
+        creators = creators.filter(provinces__id__in=selected_provinces).distinct()
     
 
     return render(request, 'search_results.html', {
         'creators': creators,
-        'query': query
+        'query': query,
+        'brands': brands,
+        'provinces': provinces,
+        'selected_brands': selected_brands,
+        'selected_provinces': selected_provinces
     })
 
 def go_profile(request, profile_id):
@@ -165,6 +181,8 @@ def profile(request):
     provinces = request.user.provinces.all()
 
     brands = request.user.brand.all()
+
+    works = request.user.work.all()
 
     print(provinces)
 

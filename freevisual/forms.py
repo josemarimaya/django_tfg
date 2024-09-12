@@ -1,5 +1,5 @@
 from django import forms
-from .models import Creator, Image, Provinces, Brand
+from .models import Creator, Image, Provinces, Brand, Work
 
 class CreateCreatorForm(forms.ModelForm):
 
@@ -70,9 +70,19 @@ class EditProfileForm(forms.ModelForm):
         label = "Marcas de herramientas con las que has trabajado"
     )
 
+    work = forms.ModelMultipleChoiceField(
+        queryset=Work.objects.all(),
+        widget=forms.SelectMultiple(attrs={
+
+            'class': 'form-select',
+            'size': '8'
+        }),  
+        label = "Puestos de trabajo en los que tiene experiencia"
+    )
+
     class Meta:
         model = Creator
-        fields = ['profile_pic', 'description', 'provinces', 'brand']
+        fields = ['profile_pic', 'description', 'provinces', 'brand', 'work']
         widgets = {
             'profile_pic': forms.FileInput(attrs={
                 'class': 'form-control'
