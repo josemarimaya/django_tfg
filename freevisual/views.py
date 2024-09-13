@@ -193,7 +193,8 @@ def profile(request):
         'images': images_from_user,
         'profile_pic': profile_pic,
         'provinces': provinces,
-        'brands': brands
+        'brands': brands,
+        'works': works
     })
 
 def edit_profile(request, profile_id):

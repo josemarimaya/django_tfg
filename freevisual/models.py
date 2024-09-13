@@ -88,11 +88,16 @@ class Creator(AbstractBaseUser, PermissionsMixin):
 
 
 
-
+class Tags(models.Model):
+    name = models.CharField(max_length=200)
+    def __str__(self):
+        return self.name
+    
 class Image(models.Model):
     owner = models.ForeignKey(Creator, on_delete=models.CASCADE)
     image = models.ImageField(upload_to='images/', default='images/galactus.png')
     title = models.CharField(max_length=100)
+    tags = models.ManyToManyField('Tags', verbose_name='Etiquetas de la imgen')
     description = models.TextField(blank=True, null=True)
     uploaded_at = models.DateTimeField(default=timezone.now)
 

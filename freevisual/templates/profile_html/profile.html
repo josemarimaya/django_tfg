@@ -14,13 +14,41 @@
 <div class="card mb-3 w-100" >
     <div class="row g-0">
         <div class="col-md-4 d-flex align-items-center justify-content-center">
-            <img src="{{ profile_pic }}" class="img-fluid rounded-start" alt="Imagen de perfil" style="object-fit: cover; width: 100%; height: 100%; max-height: 350px;">
+            <img src="{{ profile_pic }}" class="img-fluid rounded-start" alt="Imagen de perfil" style="object-fit: cover; width: 100%; height: 100%; max-height: 500px;">
         </div>
         <div class="col-md-8">
             <div class="card-body">
                 <h5 class="card-title">{{ user.username }}</h5>
                 <p class="card-text">{{ user.description }}</p>
-                <p class="card-text"><small class="text-muted"></small></p>
+
+
+                {% if works %}
+                    <p class="card-text" style="margin-top: 5px;"> Tienes experiencia como: </p>
+                    <div class="row">
+                        {% for work in works %}
+                        <div class="col">
+                            <span class="btn btn-success">{{work.name}}</span>
+                        </div>
+                    {% endfor %}
+                    </div>
+        
+                {% endif %}
+                
+
+                {% if brands %}
+                    <p class="card-text" style="margin-top: 5px;"> Herramientas con las que has trabajado: </p>
+                    <div class="row">
+                        {% for brand in brands %}
+                        <div class="col">
+                            <span class="btn btn-secondary">{{brand.name}}</span>
+                        </div>
+                    {%endfor %}
+                    </div>
+        
+                {% endif %}
+
+                
+
 
                 {% if provinces %}
                     <p class="card-text"> Provincias en las que tienes disponibilidad: </p>
@@ -32,21 +60,7 @@
                         </div>
                     {%endfor %}
                     </div>
-        
                 {% endif %}
-
-                {% if brands %}
-                    <p class="card-text" style="margin-top: 10px;"> Herramientas con las que has trabajado: </p>
-                    <div class="row">
-                        {% for brand in brands %}
-                        <div class="col">
-                            <span class="btn btn-secondary">{{brand.name}}</span>
-                        </div>
-                    {%endfor %}
-                    </div>
-        
-                {% endif %}
-
 
 
                 <div>
@@ -77,37 +91,53 @@
                         <a href="{% url 'image_detail' image.id %}" class="btn btn-secondary" style="margin-right: 5px;"> Quiero ver más </a>
                         
                         {% if user == image.owner %}
-                        <form action="{% url 'delete_image' image.id %}" method="post" style="margin-right: 5px;">
+                        <!-- Antiguo delete 
+                         <form action="{% url 'delete_image' image.id %}" method="post" style="margin-right: 5px;"
+                         >
                             {%csrf_token%}
                             <button type="submit" class="btn btn-danger">
                                 Eliminar
                             </button>
-                        </form>
+                        </form>-->
+                        
+                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" style="margin-right: 5px;" data-bs-target="#deleteModal{{ image.id }}">
+                            Eliminar
+                        </button>
 
                         <a href="{% url 'edit_image' image.id%}" class="btn btn-primary" style="margin-right: 5px;">Editar</a>
                         {% endif %}
                     </div>
 
-                    <!-- Modal de confirmación de eliminación 
-                        <div class="modal fade" id="deleteModal{{ image.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <!-- Botón y modal de confirmación de eliminar la imagen -->
+                    
+                    <!-- Botón para abrir el modal de confirmación -->
+                    
+
+                    <!-- Modal de confirmación -->
+                    <div class="modal fade" id="deleteModal{{ image.id }}" tabindex="-1" aria-labelledby="deleteModalLabel{{ image.id }}" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Confirmar Eliminación</h5>
+                                    <h5 class="modal-title" id="deleteModalLabel{{ image.id }}">Confirmar Eliminación</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    ¿Seguro que quieres eliminar esta foto?
+                                    ¿Estás seguro de que quieres borrar la imagen?
                                 </div>
                                 <div class="modal-footer">
+                                    <!-- Botón de cancelar que cierra el modal -->
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                    <a href="" class="btn btn-danger">Sí, eliminar</a>
+
+                                    <!-- Botón de eliminar que envía el formulario -->
+                                    <form action="{% url 'delete_image' image.id %}" method="post">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                                    </form>
                                 </div>
                             </div>
                         </div>
-                    </div> 
-                    -->
-                    
+                    </div>
+
                 </div>
             </div>
             
