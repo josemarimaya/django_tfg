@@ -166,10 +166,19 @@ def go_profile(request, profile_id):
 
     profile_pic = creator.profile_pic.url if creator.profile_pic else '/media/images/galactus.png'
 
+    provinces = request.user.provinces.all()
+
+    brands = request.user.brand.all()
+
+    works = request.user.work.all()
+
     return render(request, 'profile_html/profile_search.html',{
         'creator': creator,
         'images': images_from_creator,
-        'profile_pic': profile_pic
+        'profile_pic': profile_pic,
+        'provinces': provinces,
+        'brands': brands,
+        'works': works
     })
 
 
