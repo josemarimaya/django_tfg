@@ -38,14 +38,39 @@
                     {% if user == image.owner %}
                     <form action="{% url 'delete_image' image.id %}" method="post" style="margin-right: 5px;">
                         {%csrf_token%}
-                        <button type="submit" class="btn btn-danger">
-                            Eliminar
+                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" style="margin-right: 5px;" data-bs-target="#deleteModal{{ image.id }}">
+                          Eliminar
                         </button>
                     </form>
     
                     <a href="{% url 'edit_image' image.id%}" class="btn btn-primary" style="margin-right: 5px;">Editar</a>
                     {% endif %}
                   </div>
+
+                  <div class="modal fade" id="deleteModal{{ image.id }}" tabindex="-1" aria-labelledby="deleteModalLabel{{ image.id }}" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="deleteModalLabel{{ image.id }}">Confirmar Eliminación</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                ¿Estás seguro de que quieres borrar la imagen?
+                            </div>
+                            <div class="modal-footer">
+                                <!-- Botón de cancelar que cierra el modal -->
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+
+                                <!-- Botón de eliminar que envía el formulario -->
+                                <form action="{% url 'delete_image_main' image.id %}" method="post">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
               </div>
               </div>
           </div>

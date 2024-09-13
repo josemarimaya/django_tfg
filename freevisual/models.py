@@ -94,10 +94,12 @@ class Tags(models.Model):
         return self.name
     
 class Image(models.Model):
-    owner = models.ForeignKey(Creator, on_delete=models.CASCADE)
+    # Añadimos un related_name para que al usar de FK Creator no genere conflicto con tagged_creators
+    owner = models.ForeignKey(Creator, on_delete=models.CASCADE, related_name='owner')
     image = models.ImageField(upload_to='images/', default='images/galactus.png')
     title = models.CharField(max_length=100)
     tags = models.ManyToManyField('Tags', verbose_name='Etiquetas de la imgen')
+    tagged_creators = models.ManyToManyField('Creator', verbose_name='Creadores etiquetados', blank=True, related_name='tagged_creators')
     description = models.TextField(blank=True, null=True)
     uploaded_at = models.DateTimeField(default=timezone.now)
 

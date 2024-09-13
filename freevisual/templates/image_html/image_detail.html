@@ -4,9 +4,7 @@
 
 {% block content %}
 
-<h1> Aquí encontraremos el detalle de la imagen </h1>
-
-<div class="card shadow-sm">
+<div class="card shadow-sm" style="margin-top: 5px;">
     <img src="{{image.image.url}}" class="card-img-top img-fluid w-100" alt="{{ image.title }}">
     <div class="card-body">
         <h5 class="card-title">{{ image.title }} </h5>
@@ -16,10 +14,22 @@
             <p class="card-text mb-0">Autor de la imagen: </p>
             <a href="{% url 'search_profile' creator.id %}" class="btn btn-info btn-sm" style="margin-left: 10px;">{{ image.owner.username }} </a>
         </div>
+
+        {% if tagged_creators %}
+        <div class="d-flex align-items-center">
+            <p class="ard-text mb-0">Usuarios que han participado en esta publicación:</p>
+            {% for tagged_creator in tagged_creators %}
+            <a href="{% url 'search_profile' tagged_creator.id %}" 
+            class="btn btn-info btn-sm" 
+            style="margin-left: 5px;"> 
+                {{ tagged_creator.username }}</a>
+            {% endfor %}
+        </div>
+        {% endif %}
         
-        <p class="card-text"><small class="text-body-secondary">Subido el {{ image.uploaded_at }}</small></p>
+        <p class="card-text"style="margin-top: 5px;"><small class="text-body-secondary">Subido el {{ image.uploaded_at }}</small></p>
     </div>
-    <div class="d-flex justify-content-center" >
+    <div class="d-flex justify-content-center" style="margin-bottom: 5px; margin-top: 5px;">
         {% if user == image.owner %}
 
         <form action="{% url 'delete_image' image.id %}" method="post" tyle="margin-right: 5px;">

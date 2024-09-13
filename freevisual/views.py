@@ -220,6 +220,7 @@ def edit_profile(request, profile_id):
 
 
 def upload(request):
+
     if request.method == 'GET':
         return render(request, 'upload.html', {
             'form': UploadImageForm()
@@ -228,20 +229,16 @@ def upload(request):
         form = UploadImageForm(request.POST, request.FILES)
         if form.is_valid():
             image = form.save(commit=False)
-            
+
+            # Asignar el propietario de la imagen
             if isinstance(request.user, Creator):
-                image.owner = request.user  # Asigna el usuario autenticado como propietario
-                try:
-                    image.save()
-                    return redirect('main')
-                except IntegrityError as e:
-                    return render(request, 'upload.html', {
-                        'form': form,
-                        'error': f"Error al guardar la imagen: {e}"
-                    })
+                image.owner = request.user
+                image.save()
+                form.save_m2m()  # Para relaciones ManyToMany como 'tagged_creators'
+                return redirect('main')
             else:
-                return HttpResponseForbidden("El usuario autenticado no es un creador válido.")
-        
+                return HttpResponseForbidden("El usuario autenticado no es un usuario válido.")
+            
     return render(request, 'upload.html', {'form': form})
 
 
@@ -249,10 +246,14 @@ def image_detail(request, image_id):
     
     image = get_object_or_404(Image, pk=image_id)
     creator = image.owner
+    tagged_creators = image.tagged_creators.all()
+
+    print(tagged_creators)
     
     return render(request, 'image_html/image_detail.html',{
         'image': image,
-        'creator': creator
+        'creator': creator,
+        'tagged_creators': tagged_creators
         
     })
 
@@ -281,4 +282,12 @@ def delete_image(request, image_id):
     if request.method == 'POST':
         image.delete()
         return redirect('profile')
+    
+def delete_image_main(request, image_id):
+    image = get_object_or_404(Image, pk=image_id)
+
+    # Verifica que el usuario autenticado sea el dueño de la imagen
+    if request.method == 'POST':
+        image.delete()
+        return redirect('main')
     

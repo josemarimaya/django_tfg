@@ -20,6 +20,7 @@ urlpatterns = [
     path('image/<int:image_id>', views.image_detail, name='image_detail'),
     path('image/<int:image_id>/edit_image/', views.edit_image, name='edit_image'),
     path('image/<int:image_id>/delete/', views.delete_image, name='delete_image'),
+    path('image/<int:image_id>/delete_main/', views.delete_image_main, name='delete_image_main')
 ] 
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
