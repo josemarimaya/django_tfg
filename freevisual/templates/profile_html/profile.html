@@ -152,7 +152,13 @@
             </div>
             
             {% empty %}
-            <p class="text-center">Aún no has subido ninguna imagen.</p>
+            <div class="d-flex justify-content-center mx-auto">
+                <div class="card text-bg-danger mb-3" style="max-width:20rem;">
+                    <div class="card-body">
+                      <p class="card-text text-center">Todavía no se ha subido ninguna imagen a este perfil</p>
+                    </div>
+                  </div>
+            </div>
             {% endfor %}
             
         </div>

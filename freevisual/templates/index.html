@@ -32,8 +32,24 @@
               <img src="{{ image.image.url }}" class="card-img-top" alt="Proyecto 1">
               <div class="card-body">
                   <h5 class="card-title">{{ image.title }}</h5>
-                  <p class="card-text"> {{ image.description}} </p>
-                  <div class="d-flex justify-content-center" >
+                  {%if image.tags.exists%}
+                    {%for tag in image.tags.all%}
+                      {%if tag.is_pro%}
+                        {% if user.is_authenticated%}
+                        <button type="button" class="btn btn-success">
+                            {{tag.name}}
+                        </button>
+                        {%endif%}
+                      {%else%}
+                        {% if not user.is_authenticated%}
+                        <button type="button" class="btn btn-warning">
+                          {{tag.name}}
+                        </button>
+                        {% endif %}
+                      {%endif%}
+                    {%endfor%}
+                  {%endif%}
+                  <div class="d-flex justify-content-center" style="margin-top: 5px;">
                     <a href="{% url 'image_detail' image.id %}" class="btn btn-secondary" style="margin-right: 5px;"> Quiero ver más </a>
                     {% if user == image.owner %}
                     <form action="{% url 'delete_image' image.id %}" method="post" style="margin-right: 5px;">

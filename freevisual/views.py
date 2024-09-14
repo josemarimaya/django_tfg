@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 
 # Imports del propio proyecto
-from .models import Creator, Image, Provinces, Brand
+from .models import Creator, Image, Provinces, Brand, Work
 from .forms import CreateCreatorForm, LoginForm, UploadImageForm, EditProfileForm, EditImageForm
 from django.contrib.auth import login, logout, authenticate # Creación de cookies
 from django.contrib.auth import get_user_model # Depuración
@@ -134,9 +134,11 @@ def search_result(request):
     query = request.GET.get('query', '')
     selected_brands = request.GET.getlist('brand')  
     selected_provinces = request.GET.getlist('province') 
+    selected_works = request.GET.getlist('work')
 
     brands = Brand.objects.all()
     provinces = Provinces.objects.all()
+    works = Work.objects.all()
 
     if query:
         creators = Creator.objects.filter(username__icontains= query)
@@ -148,6 +150,9 @@ def search_result(request):
 
     if selected_provinces:
         creators = creators.filter(provinces__id__in=selected_provinces).distinct()
+
+    if selected_works:
+        creators = creators.filter(work__id__in=selected_works).distinct()
     
 
     return render(request, 'search_results.html', {
@@ -155,8 +160,10 @@ def search_result(request):
         'query': query,
         'brands': brands,
         'provinces': provinces,
+        'works': works,
         'selected_brands': selected_brands,
-        'selected_provinces': selected_provinces
+        'selected_provinces': selected_provinces,
+        'selected_works': selected_works
     })
 
 def go_profile(request, profile_id):
