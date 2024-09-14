@@ -1,6 +1,7 @@
 
 # Imports de django
 from django.shortcuts import render, redirect, get_object_or_404
+from django.urls import reverse
 
 # Imports del propio proyecto
 from .models import Creator, Image, Provinces, Brand
@@ -234,17 +235,24 @@ def upload(request):
         return render(request, 'upload.html', {
             'form': UploadImageForm()
         })
+    
     elif request.method == 'POST':
         form = UploadImageForm(request.POST, request.FILES)
         if form.is_valid():
             image = form.save(commit=False)
 
+
             # Asignar el propietario de la imagen
             if isinstance(request.user, Creator):
                 image.owner = request.user
                 image.save()
-                form.save_m2m()  # Para relaciones ManyToMany como 'tagged_creators'
-                return redirect('main')
+                # Para relaciones ManyToMany como 'tagged_creators'
+                form.save_m2m()  
+
+                if 'edit_button' in request.POST:
+                    return redirect(reverse('edit_image', args=[image.id]))
+                else:
+                    return redirect('main')
             else:
                 return HttpResponseForbidden("El usuario autenticado no es un usuario válido.")
             

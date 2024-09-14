@@ -1,5 +1,5 @@
 from django import forms
-from .models import Creator, Image, Provinces, Brand, Work
+from .models import Creator, Image, Provinces, Brand, Work, Tags
 
 class CreateCreatorForm(forms.ModelForm):
 
@@ -31,14 +31,19 @@ class LoginForm(forms.ModelForm):
 
 class UploadImageForm(forms.ModelForm):
 
-    tagged_users = forms.CharField(
+    """El etiquetar a las personas que han trabajado no se puede hacer en la creación de la imagen
+        ya que necesitamos hacer el post de la imagen antes de hacer la relación
+        manytomany"""
+    
+    """tagged_users = forms.CharField(
         widget=forms.TextInput(attrs={
             'class': 'form-control',
             'placeholder': 'Etiqueta a otros creadores'
         }),
         label="Usuarios etiquetados",
         required=False
-    )
+    )"""
+    
     class Meta:
         model = Image
         fields = ['image', 'title' , 'description']
@@ -56,20 +61,27 @@ class UploadImageForm(forms.ModelForm):
                 'class': 'form-control',
             })
         }
-    
-    def save(self, commit=True):
+
+    """def save(self, commit=True):
+        # Guardar la imagen sin establecer la relación ManyToMany aún
         image = super().save(commit=False)
-        tagged_users_str = self.cleaned_data['tagged_users']
-        tagged_usernames = [u.strip()[1:] for u in tagged_users_str.split(',') if u.strip().startswith('@')]
 
-        # Buscar los usuarios con esos usernames
-        tagged_creators = Creator.objects.filter(username__in=tagged_usernames)
-
-        # Guardar la imagen y luego establecer la relación ManyToMany
+        # Si commit=True, primero guarda la imagen para obtener un ID
         if commit:
             image.save()
-            image.tagged_creators.set(tagged_creators)
-        return image
+
+        # Procesar los usuarios etiquetados
+        tagged_users_str = self.cleaned_data.get('tagged_users', '')
+        tagged_usernames = [u.strip()[1:] for u in tagged_users_str.split(',') if u.strip().startswith('@')]
+
+        # Filtrar los creadores con esos usernames
+        tagged_creators = Creator.objects.filter(username__in=tagged_usernames)
+
+        # Establecer la relación ManyToMany con los creadores etiquetados
+        image.tagged_creators.set(tagged_creators)
+
+        return image"""
+    
 
 class EditProfileForm(forms.ModelForm):
 
@@ -120,7 +132,15 @@ class EditImageForm(forms.ModelForm):
     tagged_users = forms.CharField(
         widget=forms.TextInput(attrs={'class': 'form-control'}),
         required=False,
-        help_text="Agrega los usuarios etiquetados usando la notación @username separados por comas."
+        help_text="Agrega los usuarios etiquetados usando la notación @username separados por comas.",
+        label="Usuarios etiquetados"
+    )
+
+    tags = forms.CharField(
+        widget=forms.TextInput(attrs={'class': 'form-control'}),
+        required=False,
+        help_text="Agrega los tags usando la notación #tag separados por comas.",
+        label="Etiquetas asociadas"
     )
 
     class Meta:
@@ -155,6 +175,19 @@ class EditImageForm(forms.ModelForm):
         # Asignamos los usuarios etiquetados a la imagen
         instance.save()
         instance.tagged_creators.set(tagged_users)  # Actualizamos los usuarios etiquetados
+
+        # Procesamos el campo 'tags' para obtener los nombres de tags
+        tags_input = self.cleaned_data['tags']
+        tag_names_list = [tag.strip().replace('#', '') for tag in tags_input.split(',') if tag.strip()]
+
+        # Buscamos o creamos los tags en la base de datos
+        tags = []
+        for tag_name in tag_names_list:
+            tag, created = Tags.objects.get_or_create(name=tag_name)
+            tags.append(tag)
+
+        # Asignamos los tags a la imagen
+        instance.tags.set(tags)  # Actualizamos los tags asociados
 
         return instance
 
