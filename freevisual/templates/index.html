@@ -32,22 +32,36 @@
               <img src="{{ image.image.url }}" class="card-img-top" alt="Proyecto 1">
               <div class="card-body">
                   <h5 class="card-title">{{ image.title }}</h5>
-                  {%if image.tags.exists%}
-                    {%for tag in image.tags.all%}
-                      {%if tag.is_pro%}
-                        {% if user.is_authenticated%}
-                        <button type="button" class="btn btn-success">
-                            {{tag.name}}
-                        </button>
-                        {%endif%}
-                      {%else%}
-                        {% if not user.is_authenticated%}
-                        <button type="button" class="btn btn-warning">
+                  {%if user.is_authenticated %}
+                    {%if image.tags.exists%}
+
+                      {%for tag in image.tags.all%}
+                          {%if tag.is_pro%}
+                          <span class="badge bg-success" 
+                          style="font-size: 1rem; padding: 5px 5px;">
                           {{tag.name}}
-                        </button>
-                        {% endif %}
+                          </span>
+                          {%else%}
+                          <span class="badge bg-warning" 
+                          style="font-size: 1rem; padding: 5px 5px;">
+                          {{tag.name}}
+                          </span>
+                          {%endif%}
+                      {%endfor%}
+                    
+                    {%endif%}
+                  {% else %}
+                      {%if image.tags.exists%}
+
+                        {%for tag in image.tags.all%}
+                            {%if not tag.is_pro%}
+                            <span class="badge bg-warning" 
+                            style="font-size: 1rem; padding: 5px 5px;">
+                            {{tag.name}}
+                            </span>
+                            {%endif%}
+                        {%endfor%}
                       {%endif%}
-                    {%endfor%}
                   {%endif%}
                   <div class="d-flex justify-content-center" style="margin-top: 5px;">
                     <a href="{% url 'image_detail' image.id %}" class="btn btn-secondary" style="margin-right: 5px;"> Quiero ver más </a>

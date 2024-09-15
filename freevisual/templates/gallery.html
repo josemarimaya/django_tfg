@@ -24,6 +24,37 @@
             <div class="card-body">
               <h5 class="card-title">{{ image.title }}</h5>
               <p class="card-text">{{ image.description }}</p>
+              {%if user.is_authenticated %}
+                {%if image.tags.exists%}
+
+                  {%for tag in image.tags.all%}
+                      {%if tag.is_pro%}
+                      <span class="badge bg-success" 
+                      style="font-size: 1rem; padding: 5px 5px;">
+                      {{tag.name}}
+                      </span>
+                      {%else%}
+                      <span class="badge bg-warning" 
+                      style="font-size: 1rem; padding: 5px 5px;">
+                      {{tag.name}}
+                      </span>
+                      {%endif%}
+                  {%endfor%}
+                
+                {%endif%}
+              {% else %}
+                  {%if image.tags.exists%}
+
+                    {%for tag in image.tags.all%}
+                        {%if not tag.is_pro%}
+                        <span class="badge bg-warning" 
+                        style="font-size: 1rem; padding: 5px 5px;">
+                        {{tag.name}}
+                        </span>
+                        {%endif%}
+                    {%endfor%}
+                  {%endif%}
+              {%endif%}
               <p class="text-muted">Uploaded on: {{ image.uploaded_at|date:"F j, Y, g:i a" }}</p>
               <div class="d-flex justify-content-center" >
                 <a href="{% url 'image_detail' image.id %}" class="btn btn-secondary" style="margin-right: 5px;"> Quiero ver más </a>

@@ -26,6 +26,38 @@
             {% endfor %}
         </div>
         {% endif %}
+
+        {% if tags %}
+        <div class="d-flex align-items-center">
+            <p class="ard-text mb-0"> Etiquetas que contiene esta aplicación:</p>
+            {% for tag in tags %}
+                {%if user.is_authenticated %}
+                    {%if tag.is_pro%}
+                        <span class="badge bg-success" 
+                        style="font-size: 1rem; padding: 5px 5px; margin-left: 3px;">
+                        {{tag.name}}
+                        </span>
+                        {%else%}
+                        <span class="badge bg-warning" 
+                        style="font-size: 1rem; padding: 5px 5px; margin-left: 3px;">
+                        {{tag.name}}
+                        </span>
+                    {%endif%}
+                    
+                {% else %}
+                    
+                    {%if not tag.is_pro%}
+                    <span class="badge bg-warning" 
+                    style="font-size: 1rem; padding: 5px 5px; margin-left: 3px;">
+                    {{tag.name}}
+                    </span>
+                    {%endif%}
+                    
+                {%endif%}
+                
+            {% endfor %}
+        </div>
+        {% endif %}
         
         <p class="card-text"style="margin-top: 5px;"><small class="text-body-secondary">Subido el {{ image.uploaded_at }}</small></p>
     </div>

@@ -162,6 +162,9 @@ class EditImageForm(forms.ModelForm):
             tagged_usernames = ','.join([f"@{user.username}" for user in self.instance.tagged_creators.all()])
             self.fields['tagged_users'].initial = tagged_usernames
 
+            tag_names = ','.join([f"#{tag.name}" for tag in self.instance.tags.all()])
+            self.fields['tags'].initial = tag_names
+
     def save(self, commit=True):
         instance = super(EditImageForm, self).save(commit=False)
         
@@ -191,3 +194,59 @@ class EditImageForm(forms.ModelForm):
 
         return instance
 
+
+class EditImageForm_v2(forms.ModelForm):
+    tagged_users = forms.CharField(
+        widget=forms.TextInput(attrs={'class': 'form-control'}),
+        required=False,
+        help_text="Agrega los usuarios etiquetados usando la notación @username separados por comas.",
+        label="Usuarios etiquetados"
+    )
+
+    tags = forms.CharField(
+        widget=forms.TextInput(attrs={'class': 'form-control'}),
+        required=False,
+        help_text="Agrega los tags usando la notación #tag separados por comas.",
+        label="Etiquetas asociadas"
+    )
+
+    class Meta:
+        model = Image
+        fields = ['title', 'description']
+        widgets = {
+            'title': forms.TextInput(attrs={'class': 'form-control'}),
+            'description': forms.Textarea(attrs={'class': 'form-control'})
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)  # Corrección: Llamar a super sin especificar clase y self
+        if self.instance.pk:
+            # Muestra usuarios ya etiquetados
+            tagged_usernames = ','.join([f"@{user.username}" for user in self.instance.tagged_creators.all()])
+            self.fields['tagged_users'].initial = tagged_usernames
+
+            # Muestra tags ya asociados
+            tag_names = ','.join([f"#{tag.name}" for tag in self.instance.tags.all()])
+            self.fields['tags'].initial = tag_names
+
+        # Listado de etiquetas válidas para el sistema (puede añadirse como `help_text` o mostrar debajo del campo)
+        valid_tags = Tags.objects.all().values_list('name', flat=True)
+        self.fields['tags'].help_text += f" Etiquetas válidas: {', '.join([f'#{tag}' for tag in valid_tags])}"
+
+    def save(self, commit=True):
+        instance = super().save(commit=False)  # Corrección: super() sin parámetros
+
+        # Procesa los usuarios etiquetados
+        tagged_usernames = self.cleaned_data['tagged_users']
+        tagged_usernames_list = [username.strip().replace('@', '') for username in tagged_usernames.split(',') if username.strip()]
+        tagged_users = Creator.objects.filter(username__in=tagged_usernames_list)
+        instance.save()
+        instance.tagged_creators.set(tagged_users)
+
+        # Procesa las etiquetas
+        tags_input = self.cleaned_data['tags']
+        tag_names_list = [tag.strip().replace('#', '') for tag in tags_input.split(',') if tag.strip()]
+        tags = [Tags.objects.get_or_create(name=tag_name)[0] for tag_name in tag_names_list]
+        instance.tags.set(tags)
+
+        return instance

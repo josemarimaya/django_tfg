@@ -2,12 +2,13 @@
 # Imports de django
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
-
-# Imports del propio proyecto
-from .models import Creator, Image, Provinces, Brand, Work
-from .forms import CreateCreatorForm, LoginForm, UploadImageForm, EditProfileForm, EditImageForm
 from django.contrib.auth import login, logout, authenticate # Creación de cookies
 from django.contrib.auth import get_user_model # Depuración
+from django.db.models import Q
+# Imports del propio proyecto
+from .models import Creator, Image, Provinces, Brand, Work, Tags
+from .forms import CreateCreatorForm, LoginForm, UploadImageForm, EditProfileForm, EditImageForm_v2, EditImageForm
+
 from django.contrib.auth.hashers import check_password
 from django.db import IntegrityError
 from django.http import HttpResponseForbidden 
@@ -119,15 +120,30 @@ def signout(request):
 def gallery(request):
 
     query = request.GET.get('query', '')
-
-    if query == '':
-        images = Image.objects.all()
+  
+    # Si el usuario está autenticado, puede buscar todas las etiquetas
+    if request.user.is_authenticated:
+        if query == '':
+            images = Image.objects.all()
+        else:
+            images = Image.objects.filter(
+                Q(title__icontains=query) |  # Filtra por título
+                Q(tags__name__icontains=query)  # Filtra por etiquetas
+            ).distinct()
     else:
-        images = Image.objects.filter(title__icontains = query)
+        # Si el usuario no está autenticado, filtrar solo imágenes con etiquetas no pro
+        if query == '':
+            images = Image.objects.all()  # Filtrar solo imágenes con etiquetas no pro
+        else:
+            images = Image.objects.filter(
+                (Q(title__icontains=query) | Q(tags__name__icontains=query)) &  # Filtra por título o etiquetas
+                Q(tags__is_pro=False)  # Solo etiquetas no pro
+            ).distinct()
         
-    
+
     return render(request, 'gallery.html', {
-        'images': images
+        'images': images,
+        'query': query,
     })
 
 def search_result(request):
@@ -174,11 +190,11 @@ def go_profile(request, profile_id):
 
     profile_pic = creator.profile_pic.url if creator.profile_pic else '/media/images/galactus.png'
 
-    provinces = request.user.provinces.all()
+    provinces =creator.provinces.all()
 
-    brands = request.user.brand.all()
+    brands = creator.brand.all()
 
-    works = request.user.work.all()
+    works = creator.work.all()
 
     return render(request, 'profile_html/profile_search.html',{
         'creator': creator,
@@ -271,13 +287,14 @@ def image_detail(request, image_id):
     image = get_object_or_404(Image, pk=image_id)
     creator = image.owner
     tagged_creators = image.tagged_creators.all()
-
-    print(tagged_creators)
+    tags = image.tags.all()
+    
     
     return render(request, 'image_html/image_detail.html',{
         'image': image,
         'creator': creator,
-        'tagged_creators': tagged_creators
+        'tagged_creators': tagged_creators,
+        'tags': tags
         
     })
 
@@ -296,7 +313,16 @@ def edit_image(request, image_id):
     else:
         form = EditImageForm(instance=image)
     
-    return render(request, 'image_html/edit_image.html', {'form': form, 'image': image})
+    pro_tags = Tags.objects.filter(is_pro = True)
+    non_pro_tags = Tags.objects.filter(is_pro = False)
+    return render(request, 'image_html/edit_image.html', {
+        'form': form, 
+        'image': image,
+        'valid_tags': {
+            'pro': pro_tags,
+            'non_pro': non_pro_tags
+        }
+        })
 
 
 def delete_image(request, image_id):

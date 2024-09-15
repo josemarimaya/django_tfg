@@ -23,39 +23,40 @@
 
 
                 {% if works %}
-                    <p class="card-text" style="margin-top: 5px;"> Tienes experiencia como: </p>
-                    <div class="row">
-                        {% for work in works %}
-                        <div class="col">
-                            <span class="btn btn-success">{{work.name}}</span>
-                        </div>
+                <p class="card-text" style="margin-top: 5px; margin-bottom: -1px;"> Tiene experiencia como: </p>
+                <div class="col-md-6">
+                    {% for work in works %}
+                        <span class="badge bg-success" 
+                        style="font-size: 1rem; padding: 5px 5px;">
+                        {{work.name}}
+                        </span>
                     {% endfor %}
-                    </div>
-        
+                </div>
+    
                 {% endif %}
                 
 
                 {% if brands %}
-                    <p class="card-text" style="margin-top: 5px;"> Herramientas con las que has trabajado: </p>
-                    <div class="row">
+                    <p class="card-text" style="margin-top: 5px;margin-bottom: -1px;"> Herramientas con las que ha trabajado: </p>
+                    <div class="col-md-6">
                         {% for brand in brands %}
-                        <div class="col">
-                            <span class="btn btn-secondary">{{brand.name}}</span>
-                        </div>
-                    {%endfor %}
+                            <span class="badge bg-secondary" 
+                            style="font-size: 1rem; padding: 5px 5px;">
+                            {{brand.name}}
+                            </span>
+                        {%endfor %}
                     </div>
-        
                 {% endif %}                
 
                 {% if provinces %}
-                    <p class="card-text"> Provincias en las que tienes disponibilidad: </p>
-                    <div class="row">
+                    <p class="card-text" style="margin-top: 5px; margin-bottom: -1px;"> Provincias en las que tiene disponibilidad: </p>
+                    <div class="col-md-6">
                         {% for province in provinces%}
-                        <div class="col">
-                            <span class="btn btn-primary">{{province.name}}</span>
-                            
-                        </div>
-                    {%endfor %}
+                            <span class="badge bg-info" 
+                            style="font-size: 1rem; padding: 5px 5px;">
+                            {{province.name}}
+                            </span>
+                        {%endfor %}
                     </div>
                 {% endif %}
 
@@ -85,13 +86,15 @@
 
                             {%for tag in image.tags.all%}
                                 {%if tag.is_pro%}
-                                <button type="button" class="btn btn-success">
+                                <span class="badge bg-success" 
+                                    style="font-size: 1rem; padding: 5px 5px;">
                                     {{tag.name}}
-                                </button>
+                                </span>
                                 {%else%}
-                                <button type="button" class="btn btn-warning">
+                                <span class="badge bg-warning" 
+                                    style="font-size: 1rem; padding: 5px 5px;">
                                     {{tag.name}}
-                                </button>
+                                </span>
                                 {%endif%}
                             {%endfor%}
                         
