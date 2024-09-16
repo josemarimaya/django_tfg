@@ -58,6 +58,7 @@ def sign_in(request):
     })
 
 def sign_in_2(request):
+    
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -126,6 +127,7 @@ def gallery(request):
         if query == '':
             images = Image.objects.all()
         else:
+            # Usamos Q para usar varios filtros al mismo tiempo
             images = Image.objects.filter(
                 Q(title__icontains=query) |  # Filtra por título
                 Q(tags__name__icontains=query)  # Filtra por etiquetas
@@ -148,6 +150,7 @@ def gallery(request):
 
 def search_result(request):
     query = request.GET.get('query', '')
+
     selected_brands = request.GET.getlist('brand')  
     selected_provinces = request.GET.getlist('province') 
     selected_works = request.GET.getlist('work')
@@ -157,7 +160,8 @@ def search_result(request):
     works = Work.objects.all()
 
     if query:
-        creators = Creator.objects.filter(username__icontains= query)
+        creators = Creator.objects.filter(
+            Q(username__icontains= query) | Q(work__name__icontains=query))
     else:
         creators = Creator.objects.all()
 
