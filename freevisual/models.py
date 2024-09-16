@@ -97,7 +97,8 @@ class Tags(models.Model):
 class Image(models.Model):
     # Añadimos un related_name para que al usar de FK Creator no genere conflicto con tagged_creators
     owner = models.ForeignKey(Creator, on_delete=models.CASCADE, related_name='owner')
-    image = models.ImageField(upload_to='images/', default='images/galactus.png')
+    #image = models.ImageField(upload_to='images/', default='images/galactus.png', null=False, blank=False)
+    image = models.ImageField(upload_to='images/', null=False, blank=False)
     title = models.CharField(max_length=100)
     tags = models.ManyToManyField('Tags', verbose_name='Etiquetas de la imgen')
     tagged_creators = models.ManyToManyField('Creator', verbose_name='Creadores etiquetados', blank=True, related_name='tagged_creators')
