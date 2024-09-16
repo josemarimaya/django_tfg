@@ -24,7 +24,7 @@
 
                 {% if works %}
                 <p class="card-text" style="margin-top: 5px; margin-bottom: -1px;"> Tiene experiencia como: </p>
-                <div class="col-md-6">
+                <div class="col-md-12" style="margin-top: 2px;">
                     {% for work in works %}
                         <span class="badge bg-success" 
                         style="font-size: 1rem; padding: 5px 5px;">
@@ -38,7 +38,7 @@
 
                 {% if brands %}
                     <p class="card-text" style="margin-top: 5px;margin-bottom: -1px;"> Herramientas con las que ha trabajado: </p>
-                    <div class="col-md-6">
+                    <div class="col-md-12" style="margin-top: 2px;">
                         {% for brand in brands %}
                             <span class="badge bg-secondary" 
                             style="font-size: 1rem; padding: 5px 5px;">
@@ -50,7 +50,7 @@
 
                 {% if provinces %}
                     <p class="card-text" style="margin-top: 5px; margin-bottom: -1px;"> Provincias en las que tiene disponibilidad: </p>
-                    <div class="col-md-6">
+                    <div class="col-md-12" style="margin-top: 2px;">
                         {% for province in provinces%}
                             <span class="badge bg-info" 
                             style="font-size: 1rem; padding: 5px 5px;">
