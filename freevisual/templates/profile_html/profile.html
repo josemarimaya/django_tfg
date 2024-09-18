@@ -24,10 +24,10 @@
 
                 {% if works %}
                 <p class="card-text" style="margin-top: 5px; margin-bottom: -1px;"> Tiene experiencia como: </p>
-                <div class="col-md-12" style="margin-top: 2px;">
+                <div class="col-md-12" style="margin-top: 5px;">
                     {% for work in works %}
                         <span class="badge bg-success" 
-                        style="font-size: 1rem; padding: 5px 5px;">
+                        style="font-size: 1rem; padding: 5px 5px; margin-top: 5px;">
                         {{work.name}}
                         </span>
                     {% endfor %}

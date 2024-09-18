@@ -166,13 +166,15 @@ def search_result(request):
         creators = Creator.objects.all()
 
     if selected_brands:
-        creators = creators.filter(brand__id__in=selected_brands).distinct()
+        creators = creators.filter(brand__id__in=selected_brands)
 
     if selected_provinces:
-        creators = creators.filter(provinces__id__in=selected_provinces).distinct()
+        creators = creators.filter(provinces__id__in=selected_provinces)
 
     if selected_works:
-        creators = creators.filter(work__id__in=selected_works).distinct()
+        creators = creators.filter(work__id__in=selected_works)
+    
+    creators = creators.distinct()
     
 
     return render(request, 'search_results.html', {

@@ -31,7 +31,7 @@
                 <div class="col-md-6">
                     {% for work in works %}
                         <span class="badge bg-success" 
-                        style="font-size: 1rem; padding: 5px 5px;">
+                        style="font-size: 1rem; padding: 5px 5px; margin-top: 5px;">
                         {{work.name}}
                         </span>
                     {% endfor %}
@@ -63,6 +63,15 @@
                         {%endfor %}
                     </div>
                 {% endif %}
+                
+                <div class="d-flex align-items-center" style="margin-top: 5px;">
+                    <p class="card-text mb-0">Ponte en contacto con el profesional:</p>
+                    <span class="badge bg-info ms-2" style="font-size: 1rem; padding: 5px 5px;">
+                        {{creator.email}}
+                    </span>
+                </div>
+                
+                
 
                 {%if user.username == creator.username%}
                 <div>
