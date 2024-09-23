@@ -269,8 +269,7 @@ def upload(request):
         form = UploadImageForm(request.POST, request.FILES)
         if form.is_valid():
             image = form.save(commit=False)
-
-
+            
             # Asignar el propietario de la imagen
             if isinstance(request.user, Creator):
                 image.owner = request.user
