@@ -33,7 +33,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', default='your secret key')
 
 DEBUG = 'RENDER' not in os.environ # Si existe RENDER estará en False y sino en True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['https://django-tfg-b6hq.onrender.com/']
 
 # Si estamos en deploy con Render, entonces agregaremos la aplicación a los host permitidos
 
@@ -67,7 +67,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 
-    #'whitenoise.middleware.WhiteNoiseMiddleware'
+    'whitenoise.middleware.WhiteNoiseMiddleware'
 ]
 
 ROOT_URLCONF = "mytfg.urls"
@@ -103,16 +103,27 @@ DATABASES = {
 """
 """
 DATABASES = {
-    "default": dj_database_url.config(
-       default=os.getenv('DATABASE_URL'))
-    
-}
-"""
-DATABASES = {
     'default': dj_database_url.config(
         default=os.getenv('DATABASE_URL', 'postgresql://freevisual_user:duvdmJuyJ1IPMKAv4iOFqWIsWDQJbUS6@dpg-croq1lbv2p9s738puog0-a/freevisual')
     )
 }
+"""
+
+if os.getenv('DATABASE_URL'):  # Esto solo funcionará si 'DATABASE_URL' está configurada en tu entorno (Render)
+    DATABASES = {
+        'default': dj_database_url.config(
+            default=os.getenv('DATABASE_URL')
+        )
+    }
+else:
+    # Configuración para SQLite en desarrollo/local
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        }
+    }
+
 
 
 """
