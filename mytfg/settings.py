@@ -109,14 +109,15 @@ DATABASES = {
 }
 """
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    }
+    'default': dj_database_url.config(
+        default=os.getenv('DATABASE_URL', 'postgresql://freevisual_user:duvdmJuyJ1IPMKAv4iOFqWIsWDQJbUS6@dpg-croq1lbv2p9s738puog0-a/freevisual')
+    )
 }
 
 
-"""DATABASES = {
+"""
+Versión original usando sqlite3 
+DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
         "NAME": BASE_DIR / "db.sqlite3",
