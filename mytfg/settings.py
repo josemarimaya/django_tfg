@@ -33,13 +33,14 @@ SECRET_KEY = os.environ.get('SECRET_KEY', default='your secret key')
 
 DEBUG = 'RENDER' not in os.environ # Si existe RENDER estará en False y sino en True
 
-ALLOWED_HOSTS = ['https://django-tfg-b6hq.onrender.com/']
+ALLOWED_HOSTS = []
 
 # Si estamos en deploy con Render, entonces agregaremos la aplicación a los host permitidos
 
 RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
 if RENDER_EXTERNAL_HOSTNAME:    
     ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
+    ALLOWED_HOSTS.append('https://django-tfg-b6hq.onrender.com/')
 
 # Hemos añadido como auth Creator en vez de que use User para las identificaciones
 AUTH_USER_MODEL = 'freevisual.Creator'
