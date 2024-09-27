@@ -4,7 +4,7 @@ from freevisual.models import Image, Creator, Tags
 
 @pytest.mark.django_db
 def test_create_image():
-   # Creamor el Creator igual que en el test para creator
+   # Creamos el Creator igual que en el test para creator
     creator = Creator.objects.create(
         username='creator_test',
         email='test@example.com',
