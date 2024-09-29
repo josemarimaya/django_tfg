@@ -121,7 +121,11 @@ def signout(request):
 def gallery(request):
 
     query = request.GET.get('query', '')
-  
+    
+    # Nos traemos las etiquetas para indicarlas en el helper
+    pro_tags = Tags.objects.filter(is_pro = True)
+    non_pro_tags = Tags.objects.filter(is_pro = False)
+
     # Si el usuario está autenticado, puede buscar todas las etiquetas
     if request.user.is_authenticated:
         if query == '':
@@ -146,6 +150,10 @@ def gallery(request):
     return render(request, 'gallery.html', {
         'images': images,
         'query': query,
+        'valid_tags': {
+            'pro': pro_tags,
+            'non_pro': non_pro_tags
+        }
     })
 
 def search_result(request):

@@ -14,10 +14,10 @@
       {% csrf_token %}
       
       <div class="mb-3">
-          {{ form.as_p }}  
-          <button type="button" class="btn btn-primary" onclick="toggleValidTags()">Etiquetas válidas</button>
+        {{ form.as_p }}  
+        <button type="button" class="btn btn-primary" onclick="toggleValidTags()">Etiquetas válidas</button>
 
-          <div id="valid-tags" style="display:none; margin-top: 15px;">
+        <div id="valid-tags" style="display:none; margin-top: 15px;">
             <h5>Etiquetas No Pro:</h5>
             {% for tag in valid_tags.non_pro %}
             <span class="badge bg-warning" 
@@ -25,7 +25,7 @@
             #{{tag.name}}
             </span>
             {% endfor %}
-    
+
             <h5 style="margin-top: 10px;">Etiquetas Pro</h5>
             
             {% for tag in valid_tags.pro %}
@@ -34,7 +34,6 @@
             #{{tag.name}}
             </span>
             {% endfor %}
-            
         </div>
     
       </div>
