@@ -24,3 +24,10 @@ Documentación oficial de django:
         p.save()
     * Listar los objetos de una tabla:
         Objeto.objects.all()
+
+
+- Hemos dockerizado el proyecto, para acceder al mismo desde la carpeta raíz:
+
+    * docker run -p 8000:8000 django_tfg_josmaycan1
+
+    * En el navegador es usamos el local: http://127.0.0.1:8000/
