@@ -70,7 +70,7 @@ class Creator(AbstractBaseUser, PermissionsMixin):
     work = models.ManyToManyField('Work', verbose_name='Trabajos que ha realizado')
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
-    profile_pic = models.ImageField(blank=True, null= True, upload_to='images/', default='images/galactus.png')
+    profile_pic = models.ImageField(blank=True, null= True, upload_to='images/', default='images/camera.jfif')
     description = models.CharField(blank=True, max_length=200)
 
     USERNAME_FIELD = 'username'

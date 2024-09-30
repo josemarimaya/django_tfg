@@ -4,7 +4,7 @@ from freevisual.forms import EditProfileForm
 
 @pytest.mark.django_db
 def test_edit_profile_form():
-    # Creador original
+    # Creación del creador
     creator = Creator.objects.create(username='creator_test', email='test@example.com', password='testpassword123')
 
     # Creación de instancias para Provinces, Brand y Work

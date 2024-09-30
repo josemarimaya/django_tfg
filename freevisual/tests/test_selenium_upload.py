@@ -1,5 +1,6 @@
 import os
 import pytest
+import time
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
@@ -17,11 +18,14 @@ class TestSignUpAndUploadImage(StaticLiveServerTestCase):
         self.sign_up_url = self.live_server_url + reverse('sign_up')
         self.upload_url = self.live_server_url + reverse('upload')
 
+        self.driver.set_window_size(1920, 1080)  
+
     def tearDown(self):
+        time.sleep(5)
         self.driver.quit()
 
     def test_create_user_and_upload_image(self):
-        # Crear usuario
+       
         self.driver.get(self.sign_up_url)
         
         # Rellenar el formulario de registro

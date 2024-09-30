@@ -30,20 +30,6 @@ class LoginForm(forms.ModelForm):
 
 
 class UploadImageForm(forms.ModelForm):
-
-    """El etiquetar a las personas que han trabajado no se puede hacer en la creación de la imagen
-        ya que necesitamos hacer el post de la imagen antes de hacer la relación
-        manytomany"""
-    
-    """tagged_users = forms.CharField(
-        widget=forms.TextInput(attrs={
-            'class': 'form-control',
-            'placeholder': 'Etiqueta a otros creadores'
-        }),
-        label="Usuarios etiquetados",
-        required=False
-    )"""
-    
     class Meta:
         model = Image
         fields = ['image', 'title' , 'description']
@@ -62,26 +48,6 @@ class UploadImageForm(forms.ModelForm):
             })
         }
 
-    """def save(self, commit=True):
-        # Guardar la imagen sin establecer la relación ManyToMany aún
-        image = super().save(commit=False)
-
-        # Si commit=True, primero guarda la imagen para obtener un ID
-        if commit:
-            image.save()
-
-        # Procesar los usuarios etiquetados
-        tagged_users_str = self.cleaned_data.get('tagged_users', '')
-        tagged_usernames = [u.strip()[1:] for u in tagged_users_str.split(',') if u.strip().startswith('@')]
-
-        # Filtrar los creadores con esos usernames
-        tagged_creators = Creator.objects.filter(username__in=tagged_usernames)
-
-        # Establecer la relación ManyToMany con los creadores etiquetados
-        image.tagged_creators.set(tagged_creators)
-
-        return image"""
-    
 
 class EditProfileForm(forms.ModelForm):
 
@@ -92,7 +58,8 @@ class EditProfileForm(forms.ModelForm):
             'class': 'form-select',
             'size': '8'
         }),  
-        label = "Provincias en las que trabajas"
+        label = "Provincias en las que trabajas",
+        required = False
     )
 
     brand = forms.ModelMultipleChoiceField(
@@ -102,7 +69,8 @@ class EditProfileForm(forms.ModelForm):
             'class': 'form-select',
             'size': '8'
         }),  
-        label = "Marcas de herramientas con las que has trabajado"
+        label = "Marcas de herramientas con las que has trabajado",
+        required = False
     )
 
     work = forms.ModelMultipleChoiceField(
@@ -112,7 +80,8 @@ class EditProfileForm(forms.ModelForm):
             'class': 'form-select',
             'size': '8'
         }),  
-        label = "Puestos de trabajo en los que tiene experiencia"
+        label = "Puestos de trabajo en los que tiene experiencia",
+        required = False
     )
 
     class Meta:

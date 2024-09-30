@@ -202,7 +202,7 @@ def go_profile(request, profile_id):
 
     images_from_creator = Image.objects.filter(owner = profile_id)
 
-    profile_pic = creator.profile_pic.url if creator.profile_pic else '/media/images/galactus.png'
+    profile_pic = creator.profile_pic.url if creator.profile_pic else '/media/images/camera.jfif'
 
     provinces =creator.provinces.all()
 
@@ -223,7 +223,7 @@ def go_profile(request, profile_id):
 def profile(request):
     images_from_user = Image.objects.filter(owner = request.user)
 
-    profile_pic = request.user.profile_pic.url if request.user.profile_pic else '/media/images/galactus.png'
+    profile_pic = request.user.profile_pic.url if request.user.profile_pic else '/media/images/camera.jfif'
 
     provinces = request.user.provinces.all()
 
