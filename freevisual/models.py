@@ -80,11 +80,6 @@ class Creator(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.username
-    
-    def profile_picture(self):
-        if self.profile_pic:
-            return self.profile_pic.url
-        return '/static/images/default_profile_pic.png'
 
 
 
