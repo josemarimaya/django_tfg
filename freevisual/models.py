@@ -71,7 +71,7 @@ class Creator(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     profile_pic = models.ImageField(blank=True, null= True, upload_to='images/', default='images/camera.jfif')
-    description = models.CharField(blank=True, max_length=200)
+    description = models.CharField(blank=True, max_length=1000)
 
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = ['name', 'surname']
