@@ -66,7 +66,7 @@ def sign_in_2(request):
         UserModel = get_user_model()
         print(UserModel)
         try:
-            # Buscar el usuario por su nombre de usuario
+            # Buscamos el usuario por su nombre de usuario
             user = UserModel.objects.get(username=username)
             print(user)
         except UserModel.DoesNotExist:
@@ -76,7 +76,7 @@ def sign_in_2(request):
                 'form': LoginForm()
             })
 
-        # Verificar si la contraseña proporcionada es correcta
+        # Verificamos si la contraseña proporcionada es correcta
         if user.password == password: # Tenemos un problema con el cifrado de las contraseñas pero con esta comprobación tenemos suficiente
             # La contraseña es correcta, iniciar sesión
             login(request, user)
@@ -278,7 +278,7 @@ def upload(request):
         if form.is_valid():
             image = form.save(commit=False)
             
-            # Asignar el propietario de la imagen
+            # Asignamos el propietario de la imagen
             if isinstance(request.user, Creator):
                 image.owner = request.user
                 image.save()

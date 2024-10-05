@@ -51,7 +51,7 @@ class TestSearchProfessionals(StaticLiveServerTestCase):
         password2_input.send_keys(Keys.RETURN)
 
 
-        # Verificar que la página ha redirigido después de iniciar sesión
+        # Verificamos que la página ha redirigido después de iniciar sesión
         WebDriverWait(self.driver, 10).until(
             lambda driver: driver.current_url == f'{self.live_server_url}{reverse("main")}'
         )
@@ -61,10 +61,10 @@ class TestSearchProfessionals(StaticLiveServerTestCase):
         search_input.send_keys('fotógrafo')
         search_input.send_keys(Keys.RETURN)
 
-        # Verificar que se redirige a la página de resultados de búsqueda
+        # Verificamos que se redirige a la página de resultados de búsqueda
         WebDriverWait(self.driver, 10).until(
             lambda driver: reverse('search') in driver.current_url
         )
 
-        # Confirmar que se muestra el resultado en la página
+        # Confirmamos que se muestra el resultado en la página
         assert "Resultados de búsqueda para" in self.driver.page_source

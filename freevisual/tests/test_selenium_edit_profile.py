@@ -27,10 +27,10 @@ class SeleniumTestCase(StaticLiveServerTestCase):
 class TestEditProfile(SeleniumTestCase):
     @pytest.mark.skip(reason="Ignorando esta prueba de Selenium temporalmente por fallos al editar")
     def test_create_user_and_edit_profile(self):
-        # Abrir la página de registro
+        # Abrimos la página de registro
         self.driver.get(f'{self.live_server_url}{reverse("sign_up")}')
 
-        # Rellenar el formulario de registro
+     
         name_input = self.driver.find_element(By.NAME, 'name')
         username_input = self.driver.find_element(By.NAME, 'username')
         email_input = self.driver.find_element(By.NAME, 'email')
@@ -44,10 +44,10 @@ class TestEditProfile(SeleniumTestCase):
         password2_input.send_keys('Testpassword123')
         password2_input.send_keys(Keys.RETURN)
 
-        # Verificar si el usuario fue redirigido a la página principal
+
         assert self.driver.current_url == f'{self.live_server_url}{reverse("main")}'
 
-        # Iniciar sesión (en caso de no estar logueado automáticamente)
+        # Iniciamos sesión (en caso de no estar logueado automáticamente)
         self.driver.get(f'{self.live_server_url}{reverse("sign_in")}')
         username_login_input = self.driver.find_element(By.NAME, 'username')
         password_login_input = self.driver.find_element(By.NAME, 'password')
@@ -59,7 +59,7 @@ class TestEditProfile(SeleniumTestCase):
         # Ir a la página de editar perfil
         self.driver.get(f'{self.live_server_url}{reverse("edit_profile", kwargs={"profile_id": 1})}')
 
-        # Editar campos del perfil (en este caso, la descripción)
+        # Editamos campos del perfil (en este caso, la descripción)
         description_input = self.driver.find_element(By.NAME, 'description')
         description_input.clear()
         description_input.send_keys('This is the updated description.')
